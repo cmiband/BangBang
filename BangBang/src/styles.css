@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss";
+
+body {
+    --bb-color-brand: #d5739d;
+    --bb-color-neutral: #e6d0de;
+    --bb-color-black: black;
+
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+
+    height: 100vh;
+    background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
+}
+
+.custom-text-input {
+    border: 1px solid var(--bb-color-black);
+    border-radius: 5px;
+    padding-left: 0.5rem;
+    line-height: 2rem;
+    background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
+}
+
+.custom-text-input-label {
+    padding-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.custom-button {
+    font-weight: bold;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border: 1.5px solid var(--bb-color-black);
+    border-radius: 10px;
+    background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
+}
+
+.custom-button:hover {
+    cursor: pointer;
+}
