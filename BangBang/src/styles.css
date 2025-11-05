@@ -37,3 +37,15 @@ body {
 .custom-button:hover {
     cursor: pointer;
 }
+
+#line {
+  width: 80%;
+  height: 5px;
+  background: purple;
+  border-radius: 5px;
+  margin: auto;
+  display: flex;
+  margin-bottom: 2%;
+  margin-top: 3%;
+  text-align: center;
+}
