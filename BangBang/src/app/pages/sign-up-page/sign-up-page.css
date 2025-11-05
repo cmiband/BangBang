@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+.text {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: center;
+}
+
+#line {
+  width: 80%;
+  height: 5px;
+  background: purple;
+  border-radius: 5px;
+}
