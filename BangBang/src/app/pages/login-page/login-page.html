@@ -17,11 +17,13 @@
             <div class="m-[auto] pt-[0.8rem]">
                 <button class="custom-button" type="submit">SIGN IN</button>
             </div>
-            <div class="m-[auto] pt-[0.8rem]">
-                <p *ngIf="error" style="color: red">{{ error }}</p>
+            <div *ngIf="error">
+                <div id="alert" class="bg-red-400">
+                    <div class="text text-white">Account not found</div>
+                </div>
             </div>
             <div id="line"></div>
-            <div class="m-[auto] pt-[1rem] flex flex-col">
+            <div class="m-[auto] pt-[0.5rem] flex flex-col">
                 <span class="flex justify-center">New user?</span>
                 <app-custom-button label="SIGN UP" routerLink="../signUp"></app-custom-button>
             </div>

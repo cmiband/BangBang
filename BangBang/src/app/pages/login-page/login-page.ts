@@ -25,6 +25,7 @@ export class LoginPage {
       this.router.navigate(['/profile']);
     } else {
       this.error = 'Niepoprawne dane logowania';
+      this.password=''
     }
   }
 }

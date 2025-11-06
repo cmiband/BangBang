@@ -1,8 +1,38 @@
 <div class="w-[50%] h-[75vh] m-auto pt-[0vh]">
-    <img src="images/BBLogo.png" class="w-[200px] m-auto" alt="BangBang logo image">
+    <img src="images/BBLogo.png" class="w-[125px] m-auto" alt="BangBang logo image">
     <div id="line"></div> 
-    <h1 class="text-center font-bold">SIGN UP</h1>
+    <!-- <h1 class="text-center font-bold">SIGN UP</h1> -->
     <form (ngSubmit)="onSubmit()">
+        <table class="m-auto w-92/100">
+            <tr>
+                <td class="w-1/2">
+                    <div class="inputField">
+                        <label class="custom-text-input-label">Name</label>
+                        <input type="text" class="custom-text-input" [(ngModel)]="name" name="name" />
+                    </div>
+                </td>
+                <td class="w-1/2">
+                    <div class="inputField">
+                        <label class="custom-text-input-label">Surname</label>
+                        <input type="text" class="custom-text-input" [(ngModel)]="surname" name="surname" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="inputField">
+                        <label class="custom-text-input-label">Country</label>
+                        <input type="text" class="custom-text-input" [(ngModel)]="country" name="country" />
+                    </div>
+                </td>
+                <td>
+                    <div class="inputField">
+                        <label class="custom-text-input-label">Date of birth</label>
+                        <input type="date" max="{{today}}" class="custom-text-input" [(ngModel)]="dob" name="dob" />
+                    </div>
+                </td>
+            </tr>
+        </table>
         <div class="inputField">
             <label class="custom-text-input-label">Username</label>
             <input type="text" class="custom-text-input" [(ngModel)]="username" name="username" />
@@ -19,10 +49,22 @@
             <div class="m-[auto] pt-[0.8rem]">
                 <button class="custom-button" type="submit">CREATE ACCOUNT</button>
             </div>
-            <div class="m-[auto] pt-[0.8rem]">
-                <p *ngIf="error" style="color: red">{{ error }}</p>
+            <div *ngIf="success">
+                <div id="alert" class="bg-green-400">
+                    <div class="text text-white">
+                        <p><strong>Account created!</strong> Click <a class="underline" routerLink="login">here</a> to login</p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="error">
+                <div id="alert" class="bg-red-400">
+                    <div class="text text-white">{{error}}</div>
+                </div>
             </div>
             <div id="line"></div>
         </div>
     </form>
+    <div class="text-center hover:underline">
+        <a routerLink="login">Back to login page</a>
+    </div>
 </div>
