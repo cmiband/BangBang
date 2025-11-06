@@ -4,6 +4,10 @@ export interface User {
   username: string;
   password: string;
   email: string
+  name : string
+  surname: string
+  country: string
+  dob: string
 }
 
 @Injectable({
@@ -13,8 +17,8 @@ export class Auth {
   private loggedIn = false;
 
   private users: User[] = [
-    { username: 'barti', password: 'sigma', email: '' },
-    {username: '', password: '', email: ''}
+    { username: 'barti', password: 'sigma', email: 'email1', name: 'bartosz', surname: 'adamowicz', country: 'Poland', dob: '' },
+    {username: '', password: '', email: '', name: '', surname: '', country: '', dob: ''}
   ];
 
   login(username: string, password: string): boolean {
@@ -28,6 +32,10 @@ export class Auth {
     }
     this.loggedIn = false
     return false
+  }
+
+  returnUsers() {
+    return this.users
   }
 
   addUser(newUser: User): boolean {
