@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { CustomTextInput } from '../../shared/custom-text-input/custom-text-input';
 import { CustomButton } from '../../shared/custom-button/custom-button';
 import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../auth/auth';
