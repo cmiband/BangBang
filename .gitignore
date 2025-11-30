@@ -29,3 +29,4 @@ yarn-error.log*
 
 # Backend project
 bangbang-backend/node_modules
+bangbang-backend/dist
