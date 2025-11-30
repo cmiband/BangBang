@@ -6,6 +6,7 @@ import { User } from '../../auth/auth';
 import { Auth } from '../../auth/auth';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common'; 
+import { SERVER_ENDPOINT } from '../../constants/constants';
 
 @Component({
   selector: 'app-sign-up-page',
@@ -56,26 +57,15 @@ export class SignUpPage {
       return false
     }
 
-    const users = this.authService.returnUsers()
-
-    for(let user of users) {
-      if (user.email == this.email) {
-        this.error = 'Error! There is an account with this email.'
-        return false
-      }
-      if (user.username == this.username) {
-        this.error = 'Error! There is an account with this username.'
-        return false
-      }
-    }
-    return true
+    return true;
   }
 
-  onSubmit() {
+  async onSubmit() {
     const validationResult = this.validation()
 
     if(validationResult) {
       const newUser: User = {
+        id: crypto.randomUUID(),
         username: this.username,
         password: this.password,
         email: this.email,
@@ -84,7 +74,7 @@ export class SignUpPage {
         country: this.country,
         dob: this.dob
       };
-      const status = this.authService.addUser(newUser)
+      const status = await this.registerUser(newUser);
       if(status) {
         this.error = ''
         this.success = 'true'
@@ -98,4 +88,20 @@ export class SignUpPage {
     }
   }
 
+  async registerUser(newUser: User): Promise<boolean> {
+    console.log('user to register json');
+    console.log(JSON.stringify(newUser));
+    let result: boolean = false;
+    await fetch(SERVER_ENDPOINT+'/users/register', {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(newUser)
+    }).then((res) => res.json()).then((data) => {
+      result = data.successful;
+    });
+
+    return result;
+  }
 }

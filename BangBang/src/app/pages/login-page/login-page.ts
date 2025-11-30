@@ -18,8 +18,8 @@ export class LoginPage {
 
   constructor(private authService: Auth, private router: Router) {}
 
-  onSubmit() {
-    const ok = this.authService.login(this.username, this.password);
+  async onSubmit() {
+    const ok = await this.authService.login(this.username, this.password);
     if (ok) {
       this.router.navigate(['/profile']);
     } else {

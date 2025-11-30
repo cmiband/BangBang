@@ -26,3 +26,7 @@ BangBang/.ng/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Backend project
+bangbang-backend/node_modules
+bangbang-backend/dist

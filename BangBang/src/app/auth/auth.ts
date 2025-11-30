@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+import { SERVER_ENDPOINT } from '../constants/constants';
 
-export interface User {
+export type User = {
+  id: string,
   username: string;
   password: string;
   email: string
@@ -16,32 +18,23 @@ export interface User {
 export class Auth {
   private loggedIn = false;
 
-  private users: User[] = [
-    { username: 'barti', password: 'sigma', email: 'email1', name: 'bartosz', surname: 'adamowicz', country: 'Poland', dob: '' },
-    {username: '', password: '', email: '', name: '', surname: '', country: '', dob: ''}
-  ];
+  async login(username: string, password: string): Promise<boolean> {
+    let isSuccessful = false;
+    await fetch(SERVER_ENDPOINT+'/users/login', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username,
+        password: password
+      })
+    }).then((res) => res.json()).then((data) => {
+      isSuccessful = data.successful;
+    }); 
 
-  login(username: string, password: string): boolean {
-    const foundUser = this.users.find(
-      (user) => user.username === username && user.password === password
-    );
-
-    if(foundUser) {
-      this.loggedIn = true;
-      return true;
-    }
-    this.loggedIn = false
-    return false
-  }
-
-  returnUsers() {
-    return this.users
-  }
-
-  addUser(newUser: User): boolean {
-    this.users.push(newUser);
-    console.log('Dodano użytkownika:', newUser);
-    return true;
+    this.loggedIn = isSuccessful;
+    return isSuccessful;
   }
 
   logout(): void {
