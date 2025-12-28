@@ -12,3 +12,10 @@
     margin-bottom: 2%;
     text-align: center;
 } 
+
+.combobox {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 2rem;
+    background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
+}

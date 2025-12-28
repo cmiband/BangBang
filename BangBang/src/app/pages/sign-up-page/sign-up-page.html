@@ -34,6 +34,13 @@
             </tr>
         </table>
         <div class="inputField">
+            <label class="custom-text-input-label">Gender</label>
+            <select [(ngModel)]="gender" name="gender" class="combobox">
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        <div class="inputField">
             <label class="custom-text-input-label">Username</label>
             <input type="text" class="custom-text-input" [(ngModel)]="username" name="username" />
         </div>
@@ -44,6 +51,10 @@
         <div class="inputField">
             <label class="custom-text-input-label">Password</label>
             <input type="password" class="custom-text-input" [(ngModel)]="password" name="password" />
+        </div>
+        <div class="inputField">
+            <label class="custom-text-input-label">Description</label>
+            <input type="text" class="custom-text-input" [(ngModel)]="description" name="description" />
         </div>
         <div class="w-[100%] mt-[0.5rem] flex flex-col">
             <div class="m-[auto] pt-[0.8rem]">

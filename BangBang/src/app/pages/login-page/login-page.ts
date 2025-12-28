@@ -21,7 +21,7 @@ export class LoginPage {
   async onSubmit() {
     const ok = await this.authService.login(this.username, this.password);
     if (ok) {
-      this.router.navigate(['/profile']);
+      this.router.navigate(['/home']);
     } else {
       this.error = 'Niepoprawne dane logowania';
       this.password=''

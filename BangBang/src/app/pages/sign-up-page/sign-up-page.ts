@@ -24,6 +24,8 @@ export class SignUpPage {
   email = ''
   error = ''
   success = ''
+  description = ''
+  gender = ''
 
   today: string = new Date().toISOString().split('T')[0];
 
@@ -37,6 +39,8 @@ export class SignUpPage {
     this.surname = ''
     this.country = ''
     this.dob = ''
+    this.description = ''
+    this.gender = ''
   }
 
   validation() {
@@ -47,7 +51,10 @@ export class SignUpPage {
       this.country == '' ||
       this.name == '' ||
       this.surname == '' ||
-      this.dob == '') {
+      this.dob == '' ||
+      this.description == '' ||
+      this.gender == ''
+    ) {
       this.error = 'Error! Fields cannot be empty.'
       return false
     }
@@ -66,13 +73,15 @@ export class SignUpPage {
     if(validationResult) {
       const newUser: User = {
         id: crypto.randomUUID(),
+        gender: this.gender,
         username: this.username,
         password: this.password,
         email: this.email,
         name: this.name,
         surname: this.surname,
         country: this.country,
-        dob: this.dob
+        dob: this.dob,
+        description: this.description
       };
       const status = await this.registerUser(newUser);
       if(status) {

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
 import { Response } from "express";
 import { LoginUserService } from './login-user.service';
 import { User } from "../types/types";
@@ -10,6 +10,11 @@ export class LoginUserController {
     @Get('/test')
     test() {
         return "test";
+    }
+
+    @Get("/available")
+    getAvailableUsers(@Query("currentid") currentUserId: string, @Res() res: Response) {
+        return this.loginUserService.getAvailableUsers(currentUserId, res);
     }
 
     @Post("/login")

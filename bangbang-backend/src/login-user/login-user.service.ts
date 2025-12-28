@@ -6,8 +6,15 @@ import { User, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPON
 export class LoginUserService {
 
   userCollection: Array<User> = [
-    { id: crypto.randomUUID(), username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "19.03.2003"}
+    { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "19.03.2003", description: "Sigma?"},
+    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "11.09.2005", description: "Hej randka?"}
   ];
+
+  getAvailableUsers(currentUserId: string, res: Response): Response {
+    const availableUsers = this.userCollection.filter((user) => user.id != currentUserId);
+
+    return res.status(200).json({users: availableUsers});
+  }
 
   validateLogin(username: string, password: string, res: Response): Response {
     const targetedUser = this.userCollection.find((user) => {
