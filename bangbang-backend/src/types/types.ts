@@ -11,6 +11,12 @@ export type User = {
   description: string
 };
 
+export type Match = {
+    userOneId: string,
+    userTwoId: string,
+    successful: boolean
+};
+
 export type LoginResponseData = {
     message: string,
     successful: boolean,
