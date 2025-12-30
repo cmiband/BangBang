@@ -1,9 +1,13 @@
 <div class="h-[100vh] pt-[15vh]">
     <div class="m-auto h-[60vh] w-[50vw] flex flex-col items-center">
-        <div>
-            <img [src]="currentImage">
+        <div class="size-fit p-[7px] match-container">
+            <img [src]="currentImage" class="h-[50vh] w-[30vw]">
+            <div class="flex pt-[5px] pb-[5px] text-base justify-between">
+                <div>{{ currentUserFirstName() }}, {{ currentUserAge() }}</div>
+                <img src="images/expandmenu.png" class="w-[1.5rem] h-[1.5rem]">
+            </div>
         </div>
-        <div class="flex gap-[1rem]">
+        <div class="flex gap-[1rem] mt-[1rem]">
             <button class="yes-button match-button">Yes</button>
             <button class="no-button match-button">No</button>
         </div>

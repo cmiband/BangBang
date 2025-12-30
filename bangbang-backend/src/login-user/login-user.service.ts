@@ -6,8 +6,8 @@ import { User, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPON
 export class LoginUserService {
 
   public userCollection: Array<User> = [
-    { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "19.03.2003", description: "Sigma?"},
-    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "11.09.2005", description: "Hej randka?"}
+    { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", description: "Sigma?"},
+    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "2005-09-19", description: "Hej randka?"}
   ];
 
   getAvailableUsers(currentUserId: string, res: Response): Response {

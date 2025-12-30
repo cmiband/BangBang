@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CustomButton } from '../../shared/custom-button/custom-button';
 import { CustomTextInput } from '../../shared/custom-text-input/custom-text-input';
 import { RouterLink, Router } from '@angular/router';
-import { User } from '../../auth/auth';
+import { User } from '../../types/types';
 import { Auth } from '../../auth/auth';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common'; 
