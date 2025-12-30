@@ -1,4 +1,4 @@
-import { Controller,Get,Query,Res } from '@nestjs/common';
+import { Controller,Get,Query,Res,Body,Post } from '@nestjs/common';
 import { Response } from "express";
 import { MatchService } from './match.service';
 import { LoginUserService } from '../login-user/login-user.service';
@@ -13,5 +13,10 @@ export class MatchController {
         const allUsers = this.loginUserService.userCollection;
 
         return this.matchService.getAvailableMatches(allUsers,currentUserId,response);
+    }
+
+    @Post("/match")
+    createMatch(@Body() body: {firstUserId: string, secondUserId: string}, @Res() response: Response) {
+        return this.matchService.createMatch(body.firstUserId, body.secondUserId, response);
     }
 }

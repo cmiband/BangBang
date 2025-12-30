@@ -79,4 +79,12 @@ export class HomePage {
     const diffDate = new Date(diff);
     return Math.abs(diffDate.getUTCFullYear()-1970);
   }
+
+  handleMatch() {
+
+  }
+
+  handleUnmatch() {
+    
+  }
 }

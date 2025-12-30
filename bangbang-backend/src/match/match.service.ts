@@ -17,17 +17,36 @@ export class MatchService {
             return res.status(200).json({users: []});
         }
 
-        const existingMatches = this.prepareMatchIds();
+        const existingMatches = this.prepareMatchIds(currentUserId);
         const usersFilteredByExistingMatches = availableUsers.filter((user) => !existingMatches.has(user.id));
         return res.status(200).json({users: usersFilteredByExistingMatches});
     }
 
-    prepareMatchIds(): Set<string> {
+    createMatch(firstUserId: string, secondUserId: string, res: Response) {
+        this.matches.push({
+            userOneId: firstUserId,
+            userTwoId: secondUserId,
+            resolved: false,
+            successful: false
+        });
+
+        return res.status(200);
+    }
+
+    prepareMatchIds(currentUserId: string): Set<string> {
         const ids = new Set<string>();
         
         this.matches.forEach((match) => {
-            ids.add(match.userOneId);
-            ids.add(match.userTwoId);
+            if(!match.resolved) {
+                return;
+            }
+            
+            if(currentUserId != match.userOneId) {
+                ids.add(match.userOneId);
+            }
+            if(currentUserId != match.userTwoId) {
+                ids.add(match.userTwoId);
+            }
         });
 
         return ids;

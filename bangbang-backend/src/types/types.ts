@@ -14,6 +14,7 @@ export type User = {
 export type Match = {
     userOneId: string,
     userTwoId: string,
+    resolved: boolean,
     successful: boolean
 };
 
