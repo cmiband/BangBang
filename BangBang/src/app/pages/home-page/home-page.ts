@@ -25,8 +25,8 @@ const DEFAULT_USER: User = {
 export class HomePage {
   authService : Auth;
   availableUsers: Array<User> = [];
-  availableUsersExist = false;
 
+  availableUsersExist: WritableSignal<boolean> = signal(false);
   currentUser: WritableSignal<User> = signal(DEFAULT_USER);
   currentImage: string = "";
 
@@ -56,8 +56,8 @@ export class HomePage {
       this.availableUsers = data.users as Array<User>;
       console.log(this.availableUsers);
 
-      this.availableUsersExist = !!this.availableUsers.length;
-      if(this.availableUsersExist) {
+      this.availableUsersExist.set(!!this.availableUsers.length);
+      if(this.availableUsersExist()) {
         this.adaptFirstLoad(this.availableUsers);
       }
     }).catch((err) => {
@@ -80,11 +80,45 @@ export class HomePage {
     return Math.abs(diffDate.getUTCFullYear()-1970);
   }
 
-  handleMatch() {
+  getNextUserToDisplay() {
+    if(!this.availableUsers.length) {
+      console.log('a');
+      this.availableUsersExist.set(!!this.availableUsers.length);
+    } else {
+      console.log('b');
+      this.currentUser.set(this.availableUsers[0]);
+      this.currentImage = this.getImageName(this.currentUser());
+    }
+  }
 
+  async handleMatch() {
+    console.log('match');
+    await fetch(SERVER_ENDPOINT+"/match/creatematch", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstUserId: this.authService.getUserId(),
+        secondUserId: this.currentUser().id,
+        resolved: false
+      })
+    }).then((res) => res.json()).then((data) => {
+      if(!data.success) {
+        return;
+      }
+
+      this.availableUsers = this.availableUsers.filter((user) => user.id != this.currentUser().id);
+      console.log('users');
+      console.log(this.availableUsers);
+
+      this.getNextUserToDisplay();
+    }).catch((err) => {
+      console.error(err);
+    })
   }
 
   handleUnmatch() {
-    
+    console.log('unmatch');
   }
 }

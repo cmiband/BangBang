@@ -22,22 +22,42 @@ export class MatchService {
         return res.status(200).json({users: usersFilteredByExistingMatches});
     }
 
-    createMatch(firstUserId: string, secondUserId: string, res: Response) {
-        this.matches.push({
-            userOneId: firstUserId,
-            userTwoId: secondUserId,
-            resolved: false,
-            successful: false
-        });
+    createMatch(firstUserId: string, secondUserId: string, resolved: boolean, res: Response) {
+        const relatedExistingMatch = this.findExistingMatch(firstUserId, secondUserId);
+        console.log(relatedExistingMatch);
+        if(!relatedExistingMatch) {
+            this.matches.push({
+                userOneId: firstUserId,
+                userTwoId: secondUserId,
+                resolved: resolved,
+                successful: false
+            });
+        } else {
+            const isExistingMatchResolved = relatedExistingMatch.resolved;
+            
+            if(!isExistingMatchResolved) {
+                relatedExistingMatch.successful = true;
+                relatedExistingMatch.resolved = true;
+            }
+        }
+        console.log('if or else');
 
-        return res.status(200);
+        return res.status(200).json({success: true});
+    }
+
+    findExistingMatch(firstUserId: string, secondUserId: string) : Match | undefined {
+        return this.matches.find((match) => {
+            const idsInMatch = [match.userOneId, match.userTwoId];
+
+            return idsInMatch.includes(firstUserId) && idsInMatch.includes(secondUserId);
+        })
     }
 
     prepareMatchIds(currentUserId: string): Set<string> {
         const ids = new Set<string>();
         
         this.matches.forEach((match) => {
-            if(!match.resolved) {
+            if(match.resolved) {
                 return;
             }
             
