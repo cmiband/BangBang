@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Response } from "express";
-import { User, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
+import { response, Response } from "express";
+import { User, UserProfileReturn,AccountInfoResponseData, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
 
 @Injectable()
 export class LoginUserService {
@@ -81,5 +81,37 @@ export class LoginUserService {
 
   checkIfUserWithEmailExist(email: string): boolean {
     return this.userCollection.find((user) => user.email === email) != undefined;
+  }
+
+getUserByUsernamePasword(username: string, password: string): AccountInfoResponseData {
+    const targetedUser = this.userCollection.find((user) => {
+      return user.username == username && user.password == password;
+    });
+
+    let responseMessage: string;
+    let findSuccessful: boolean;
+    let userToSend: UserProfileReturn | null;
+    if(!targetedUser) {
+      responseMessage = LOGIN_RESPONSE_FAILED;
+      findSuccessful = false
+      userToSend = null
+    } else {
+      responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
+      findSuccessful = true;
+      userToSend = {
+        name: targetedUser.name,
+        surname: targetedUser.surname,
+        email: targetedUser.email,
+        dob: targetedUser.dob,
+        country: targetedUser.country
+      };
+    }
+
+    const responseData: AccountInfoResponseData = {
+      message: responseMessage,
+      successful: findSuccessful,
+      user: userToSend
+    };
+    return responseData;
   }
 }

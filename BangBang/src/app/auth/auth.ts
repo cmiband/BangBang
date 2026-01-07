@@ -12,11 +12,20 @@ export type User = {
   dob: string
 }
 
+export type AccontInfo = {
+  email: string;
+  name: string;
+  surname: string;
+  country: string;
+  dob: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
   private loggedIn = false;
+  private currentUser: AccontInfo | null = null
 
   async login(username: string, password: string): Promise<boolean> {
     let isSuccessful = false;
@@ -33,6 +42,22 @@ export class Auth {
       isSuccessful = data.successful;
     }); 
 
+    if(!isSuccessful) {
+      this.currentUser = null;
+      return false;
+    }
+    const qs = new URLSearchParams({ username, password }).toString();
+    const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
+    const accountData = await accountRes.json();
+
+    console.log(accountData)
+
+    if(!accountData.successful) {
+      this.currentUser = null;
+      return false;
+    }
+    this.currentUser = accountData.user
+
     this.loggedIn = isSuccessful;
     return isSuccessful;
   }
@@ -43,5 +68,14 @@ export class Auth {
 
   isLoggedIn(): boolean {
     return this.loggedIn;
+  }
+
+  getUser(): AccontInfo {
+    if(this.currentUser != null) {
+      return this.currentUser
+    }
+    else {
+      throw new Error('No data found')
+    }
   }
 }

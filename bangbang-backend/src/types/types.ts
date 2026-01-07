@@ -9,10 +9,24 @@ export type User = {
   dob: string
 };
 
+export type UserProfileReturn = {
+    email: string;
+    name: string;
+    surname: string;
+    country: string;
+    dob: string;
+}
+
 export type LoginResponseData = {
     message: string,
     successful: boolean,
     userId: string
+}
+
+export type AccountInfoResponseData = {
+    message: string,
+    successful: boolean,
+    user: UserProfileReturn | null
 }
 
 export type RegisterResponseData = {
