@@ -7,15 +7,9 @@ export type User = {
   surname: string
   country: string
   dob: string
+  city: string
+  avatar: string
 };
-
-export type UserProfileReturn = {
-    email: string;
-    name: string;
-    surname: string;
-    country: string;
-    dob: string;
-}
 
 export type LoginResponseData = {
     message: string,
@@ -26,7 +20,7 @@ export type LoginResponseData = {
 export type AccountInfoResponseData = {
     message: string,
     successful: boolean,
-    user: UserProfileReturn | null
+    user: User | null
 }
 
 export type RegisterResponseData = {

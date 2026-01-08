@@ -1,0 +1,92 @@
+<div class="page">
+  <div class="page__bg"></div>
+
+  <main class="card">
+    <div class="header">
+      <img src="images/BBLogo.png" class="headerLogo" alt="BangBang logo image">
+      <div class="section-title">Change informations</div>
+    </div>
+    <div class="content">
+        <form (ngSubmit)="onSubmit()">
+            <table class="m-auto">
+                <tr>
+                    <td class="w-100">
+                        <div class="field">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" [defaultValue]="user.name" [(ngModel)]="name" name="name"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w-100">
+                        <div class="field">
+                            <label for="surname">Surname</label>
+                            <input type="text" id="surname" [defaultValue]="user.surname" [(ngModel)]="surname" name="surname"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w-100">
+                        <div class="field">
+                            <label for="country">Country</label>
+                            <input type="text" id="country" [defaultValue]="user.country" [(ngModel)]="country" name="country" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w-100">
+                        <div class="field">
+                            <label for="city">City</label>
+                            <input type="text" id="city" [defaultValue]="user.city" [(ngModel)]="city" name="city"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w-100">
+                        <div class="field">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" [defaultValue]="user.password" [(ngModel)]="password" name="password" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="w-100">
+                        <div class="field">
+                            <label for="email">Email</label>
+                            <input type="text" id="email" [defaultValue]="user.email" [(ngModel)]="email" name="email"/>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="w-[100%] mt-[0.5rem] flex flex-col">
+                <div class="m-[auto] pt-[0.8rem] bg-rgba(72, 147, 79, 0.55)">
+                    <button class="button-12" type="submit">Confirm Changes</button>
+                    <div class="overlay success" *ngIf="showSuccess" (click)="closeAlerts()">
+                        <div class="alert" (click)="$event.stopPropagation()">
+                            <button class="close" type="button" (click)="closeAlerts()">×</button>
+                            <div class="icon success-icon">✓</div>
+                            <h2>Success!</h2>
+                            <p>Changes saved.</p>
+                        </div>
+                    </div>
+                    <div class="overlay error" *ngIf="showError" (click)="closeAlerts()">
+                        <div class="alert" (click)="$event.stopPropagation()">
+                            <button class="close" type="button" (click)="closeAlerts()">×</button>
+                            <div class="icon error-icon">✕</div>
+                            <h2>Error</h2>
+                            <p>{{ error }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="m-[auto] pt-[0.8rem] ">
+                    <button class="button-12" type="button" routerLink="../profile">Decline Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="bottom-nav" aria-label="Bottom navigation">
+      <img src="images/userDark.png" class="w-[50px] m-auto cursor-pointer" alt="User dark image" routerLink="../profile">
+    </div>
+  </main>
+</div>

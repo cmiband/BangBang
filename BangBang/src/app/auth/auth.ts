@@ -10,14 +10,8 @@ export type User = {
   surname: string
   country: string
   dob: string
-}
-
-export type AccontInfo = {
-  email: string;
-  name: string;
-  surname: string;
-  country: string;
-  dob: string;
+  city: string
+  avatar: string
 }
 
 @Injectable({
@@ -25,7 +19,7 @@ export type AccontInfo = {
 })
 export class Auth {
   private loggedIn = false;
-  private currentUser: AccontInfo | null = null
+  private currentUser: User | null = null
 
   async login(username: string, password: string): Promise<boolean> {
     let isSuccessful = false;
@@ -50,7 +44,6 @@ export class Auth {
     const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
     const accountData = await accountRes.json();
 
-    console.log(accountData)
 
     if(!accountData.successful) {
       this.currentUser = null;
@@ -70,12 +63,50 @@ export class Auth {
     return this.loggedIn;
   }
 
-  getUser(): AccontInfo {
+  getUser(): User {
     if(this.currentUser != null) {
       return this.currentUser
     }
     else {
       throw new Error('No data found')
     }
+  }
+  async updateUserInfo() {
+    if(this.currentUser?.password != null && this.currentUser.username != null) {
+      const username = this.currentUser.username
+      const password = this.currentUser.password
+      const qs = new URLSearchParams({ username , password }).toString();
+      const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
+      const accountData = await accountRes.json();
+      if(!accountData.successful) {
+        this.currentUser = null;
+      }
+      this.currentUser = accountData.user
+    }
+  }
+
+  async updateUserAvatr(url: string): Promise<Boolean> {
+    let result: boolean = false
+    await fetch(SERVER_ENDPOINT+'/users/updateUserAvatar', {
+        method: "PUT",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: JSON.stringify({
+          email: this.currentUser?.email,
+          password: this.currentUser?.password,
+          username: this.currentUser?.username,
+          url: url
+        })
+      }).then((res) => res.json()).then((data) => {
+      result = data.successful;
+      });
+    if(result) {
+      this.updateUserInfo()
+      console.log("dziala auth")
+      return true
+    }
+    console.log("nie dziala auth")
+    return false
   }
 }

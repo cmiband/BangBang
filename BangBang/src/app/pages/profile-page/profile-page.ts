@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { Auth,AccontInfo } from '../../auth/auth';
+import { Auth } from '../../auth/auth';
 
 @Component({
   selector: 'app-profile-page',

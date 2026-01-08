@@ -1,13 +1,82 @@
 import { Injectable } from '@nestjs/common';
 import { response, Response } from "express";
-import { User, UserProfileReturn,AccountInfoResponseData, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
+import { User,AccountInfoResponseData, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
 
 @Injectable()
 export class LoginUserService {
 
   userCollection: Array<User> = [
-    { id: crypto.randomUUID(), username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "19.03.2003"}
+    { id: crypto.randomUUID(), username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "19.03.2003", city: "Warszawa", avatar: ""}
   ];
+
+  getAllUsers():Array<User> {
+    return this.userCollection
+  }
+
+  updateUserAvatar(email:string,password:string,username:string,url:string,res: Response) : Response {
+    const idx = this.userCollection.findIndex((user) => {
+    return user.email === email && user.password === password && user.username === username;
+    });
+
+    let responseMessage: string;
+    let loginSuccessful: boolean;
+    let userId: string;
+
+    if(idx === -1) {
+      responseMessage = LOGIN_RESPONSE_FAILED;
+      loginSuccessful = false;
+      userId = "";
+    }
+    else {
+      this.userCollection[idx].avatar = url
+      responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
+      loginSuccessful = true;
+      userId = JSON.stringify(idx);
+    }
+
+    const responseData: LoginResponseData = {
+      message: responseMessage,
+      successful: loginSuccessful,
+      userId: userId
+    };
+    return res.status(200).json(responseData);
+  }
+
+  updateUser(oldEmail:string,oldPassword:string,name: string, surname: string, country: string, city: string, password: string, email: string, res: Response): Response 
+  {
+    const idx = this.userCollection.findIndex((user) => {
+    return user.email === oldEmail && user.password === oldPassword;
+    });
+
+    let responseMessage: string;
+    let loginSuccessful: boolean;
+    let userId: string;
+
+    if(idx === -1) {
+      responseMessage = LOGIN_RESPONSE_FAILED;
+      loginSuccessful = false;
+      userId = "";
+    }
+    else {
+      this.userCollection[idx].name = name
+      this.userCollection[idx].surname = surname
+      this.userCollection[idx].country = country
+      this.userCollection[idx].city = city
+      this.userCollection[idx].password = password
+      this.userCollection[idx].email = email
+
+      responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
+      loginSuccessful = true;
+      userId = JSON.stringify(idx);
+    }
+
+    const responseData: LoginResponseData = {
+      message: responseMessage,
+      successful: loginSuccessful,
+      userId: userId
+    };
+    return res.status(200).json(responseData);
+  }
 
   validateLogin(username: string, password: string, res: Response): Response {
     const targetedUser = this.userCollection.find((user) => {
@@ -90,7 +159,7 @@ getUserByUsernamePasword(username: string, password: string): AccountInfoRespons
 
     let responseMessage: string;
     let findSuccessful: boolean;
-    let userToSend: UserProfileReturn | null;
+    let userToSend: User | null;
     if(!targetedUser) {
       responseMessage = LOGIN_RESPONSE_FAILED;
       findSuccessful = false
@@ -98,13 +167,7 @@ getUserByUsernamePasword(username: string, password: string): AccountInfoRespons
     } else {
       responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
       findSuccessful = true;
-      userToSend = {
-        name: targetedUser.name,
-        surname: targetedUser.surname,
-        email: targetedUser.email,
-        dob: targetedUser.dob,
-        country: targetedUser.country
-      };
+      userToSend = targetedUser
     }
 
     const responseData: AccountInfoResponseData = {

@@ -16,8 +16,7 @@
   position: relative;
   width: min(760px, 100%);
 
-  /* KLUCZ: karta nie może mieć pełnych 100vh jeśli rodzic ma padding */
-  height: calc(100vh - 24px); /* 12px top + 12px bottom */
+  height: calc(100vh - 24px); 
   max-height: calc(100vh - 24px);
 
   display: flex;

@@ -72,7 +72,9 @@ export class SignUpPage {
         name: this.name,
         surname: this.surname,
         country: this.country,
-        dob: this.dob
+        dob: this.dob,
+        city: "",
+        avatar: ""
       };
       const status = await this.registerUser(newUser);
       if(status) {
