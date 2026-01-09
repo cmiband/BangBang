@@ -34,7 +34,6 @@
 .page__bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #d9b6c7 0%, #d790a7 45%, #c66a8f 100%);
   filter: saturate(1.05);
 }
 

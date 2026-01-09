@@ -103,10 +103,8 @@ export class Auth {
       });
     if(result) {
       this.updateUserInfo()
-      console.log("dziala auth")
       return true
     }
-    console.log("nie dziala auth")
     return false
   }
 }

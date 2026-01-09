@@ -1,5 +1,29 @@
-<form (ngSubmit)="onSubmit()">
-    <input [(ngModel)]="url" name="url" id="url" type="text">
-    <button type="submit" class="custom-button">klik</button>
-</form>
-<button type="button" class="custom-button" routerLink="../profile">wroc</button>
+<div class="page">
+    <div class="page__bg"></div>
+
+    <main class="card">
+        <div class="header">
+            <img src="images/BBLogo.png" class="headerLogo" alt="BangBang logo image">
+            <div class="section-title">Change avatar</div>
+        </div>
+        <div class="content">
+            <div class="gallery-grid">
+                <img *ngFor="let img of images; let i = index" [src]="img.src" [alt]="'Image ' + i"
+                    (click)="onSubmit(i)" class="gallery-img" />
+            </div>
+        </div>
+        <div class="overlay success" *ngIf="showSuccess" (click)="closeAlert()">
+            <div class="alert" (click)="$event.stopPropagation()">
+                <button class="close" type="button" (click)="closeAlert()">×</button>
+                <div class="icon success-icon">✓</div>
+                <h2>Success!</h2>
+                <p>Avatar changed.</p>
+            </div>
+        </div>
+
+        <div class="bottom-nav" aria-label="Bottom navigation">
+            <img src="images/userDark.png" class="w-[50px] m-auto cursor-pointer" alt="User dark image"
+                routerLink="../profile">
+        </div>
+    </main>
+</div>

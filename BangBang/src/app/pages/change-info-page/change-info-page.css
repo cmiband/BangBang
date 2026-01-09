@@ -15,7 +15,7 @@
 .page__bg {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, #d9b6c7 0%, #d790a7 45%, #c66a8f 100%);
+  /* background: linear-gradient(180deg, #d9b6c7 0%, #d790a7 45%, #c66a8f 100%); */
   filter: saturate(1.05);
 }
 
@@ -66,12 +66,12 @@
   margin-bottom: 10px;
 }
 
-.button {
+/* .button {
     background: rgba(55, 60, 65, 0.55);
     color: rgba(255, 255, 255, 0.92);
     font-size: 12px;
     font-weight: 600;
-}
+} */
 
 .content {
   flex: 1 1 auto;
