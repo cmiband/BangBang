@@ -6,7 +6,7 @@ import { User,AccountInfoResponseData, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE
 export class LoginUserService {
 
   userCollection: Array<User> = [
-    { id: crypto.randomUUID(), username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "19.03.2003", city: "Warszawa", avatar: ""}
+    { id: crypto.randomUUID(), username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", city: "Warszawa", avatar: ""}
   ];
 
   getAllUsers():Array<User> {

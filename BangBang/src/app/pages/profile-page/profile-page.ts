@@ -19,7 +19,7 @@ export class ProfilePage {
   }
   
   calculateAge(dob: string): string {
-    const [day, month, year] = dob.split('.').map(Number);
+    const [year, month, day] = dob.split('-').map(Number);
 
     const birthDate = new Date(year, month - 1, day);
     const today = new Date();

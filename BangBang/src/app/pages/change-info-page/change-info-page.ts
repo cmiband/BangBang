@@ -89,8 +89,12 @@ export class ChangeInfoPage {
         this.showError = true
         setTimeout(() => (this.showError = false), 2000);
       }
-
-      this.authService.updateUserInfo()
+      if(this.user.password === this.password) {
+        this.authService.updateUserInfo()
+      }
+      else {
+        this.authService.updateUserInfo(this.password)
+      }
     }
     
     validate(): boolean {

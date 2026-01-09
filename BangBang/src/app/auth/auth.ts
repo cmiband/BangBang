@@ -6,7 +6,7 @@ export type User = {
   username: string;
   password: string;
   email: string
-  name : string
+  name: string
   surname: string
   country: string
   dob: string
@@ -23,7 +23,7 @@ export class Auth {
 
   async login(username: string, password: string): Promise<boolean> {
     let isSuccessful = false;
-    await fetch(SERVER_ENDPOINT+'/users/login', {
+    await fetch(SERVER_ENDPOINT + '/users/login', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -34,9 +34,9 @@ export class Auth {
       })
     }).then((res) => res.json()).then((data) => {
       isSuccessful = data.successful;
-    }); 
+    });
 
-    if(!isSuccessful) {
+    if (!isSuccessful) {
       this.currentUser = null;
       return false;
     }
@@ -45,7 +45,7 @@ export class Auth {
     const accountData = await accountRes.json();
 
 
-    if(!accountData.successful) {
+    if (!accountData.successful) {
       this.currentUser = null;
       return false;
     }
@@ -64,21 +64,27 @@ export class Auth {
   }
 
   getUser(): User {
-    if(this.currentUser != null) {
+    if (this.currentUser != null) {
       return this.currentUser
     }
     else {
       throw new Error('No data found')
     }
   }
-  async updateUserInfo() {
-    if(this.currentUser?.password != null && this.currentUser.username != null) {
+  async updateUserInfo(newPassword: string = '') {
+    if (this.currentUser?.password != null && this.currentUser.username != null) {
+      let password = ''
       const username = this.currentUser.username
-      const password = this.currentUser.password
-      const qs = new URLSearchParams({ username , password }).toString();
+      if(newPassword === '') {
+        password = this.currentUser.password
+      }
+      else {
+        password = newPassword
+      }
+      const qs = new URLSearchParams({ username, password }).toString();
       const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
       const accountData = await accountRes.json();
-      if(!accountData.successful) {
+      if (!accountData.successful) {
         this.currentUser = null;
       }
       this.currentUser = accountData.user
@@ -87,22 +93,33 @@ export class Auth {
 
   async updateUserAvatr(url: string): Promise<Boolean> {
     let result: boolean = false
-    await fetch(SERVER_ENDPOINT+'/users/updateUserAvatar', {
-        method: "PUT",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: JSON.stringify({
-          email: this.currentUser?.email,
-          password: this.currentUser?.password,
-          username: this.currentUser?.username,
-          url: url
-        })
-      }).then((res) => res.json()).then((data) => {
+    await fetch(SERVER_ENDPOINT + '/users/updateUserAvatar', {
+      method: "PUT",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify({
+        email: this.currentUser?.email,
+        password: this.currentUser?.password,
+        username: this.currentUser?.username,
+        url: url
+      })
+    }).then((res) => res.json()).then((data) => {
       result = data.successful;
-      });
-    if(result) {
+    });
+    if (result) {
       this.updateUserInfo()
+      return true
+    }
+    return false
+  }
+
+  async checkIfEmailExist(email: string): Promise<boolean> {
+    const qs = new URLSearchParams({ email }).toString();
+    const accountRes = await fetch(`${SERVER_ENDPOINT}/users/emailCheck?${qs}`, {})
+    const accountData = await accountRes.json();
+
+    if (accountData) {
       return true
     }
     return false

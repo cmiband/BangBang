@@ -24,7 +24,7 @@ export class ForgotPasswordPage {
     
     const targetedUserPasswordInfo = await this.findUser(this.email);
     if(!targetedUserPasswordInfo.successful) {
-      this.error = 'error';
+      this.error = 'Account not found';
       this.success = '';
       return;
     }
