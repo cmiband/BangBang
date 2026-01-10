@@ -1,14 +1,23 @@
 export type User = {
     id: string,
+    gender: string,
   username: string;
   password: string;
   email: string
   name : string
   surname: string
   country: string
-  dob: string
-  city: string
+  dob: string,
+  description: string,
+  city: string,
   avatar: string
+};
+
+export type Match = {
+    userOneId: string,
+    userTwoId: string,
+    resolved: boolean,
+    successful: boolean
 };
 
 export type LoginResponseData = {

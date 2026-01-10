@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CustomButton } from '../../shared/custom-button/custom-button';
 import { CustomTextInput } from '../../shared/custom-text-input/custom-text-input';
 import { RouterLink, Router } from '@angular/router';
-import { User } from '../../auth/auth';
+import { User } from '../../types/types';
 import { Auth } from '../../auth/auth';
 import { FormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common'; 
@@ -24,6 +24,8 @@ export class SignUpPage {
   email = ''
   error = ''
   success = ''
+  description = ''
+  gender = ''
 
   today: string = new Date().toISOString().split('T')[0];
 
@@ -37,6 +39,8 @@ export class SignUpPage {
     this.surname = ''
     this.country = ''
     this.dob = ''
+    this.description = ''
+    this.gender = ''
   }
 
   validation() {
@@ -47,7 +51,10 @@ export class SignUpPage {
       this.country == '' ||
       this.name == '' ||
       this.surname == '' ||
-      this.dob == '') {
+      this.dob == '' ||
+      this.description == '' ||
+      this.gender == ''
+    ) {
       this.error = 'Error! Fields cannot be empty.'
       return false
     }
@@ -77,6 +84,7 @@ export class SignUpPage {
     if(validationResult) {
       const newUser: User = {
         id: crypto.randomUUID(),
+        gender: this.gender,
         username: this.username,
         password: this.password,
         email: this.email,
@@ -84,6 +92,7 @@ export class SignUpPage {
         surname: this.surname,
         country: this.country,
         dob: this.dob,
+        description: this.description,
         city: "",
         avatar: ""
       };

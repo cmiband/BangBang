@@ -12,16 +12,22 @@ export class LoginUserController {
         return "test";
     }
 
+    @Get("/available")
+    getAvailableUsers(@Query("currentid") currentUserId: string, @Res() res: Response) {
+        return this.loginUserService.getAvailableUsers(currentUserId, res);
+    }
+
     @Get('/getUser')
-    async getUser(@Query('username') username: string, @Query('password') password: string) {
+    getUser(@Query('username') username: string, @Query('password') password: string) {
         return this.loginUserService.getUserByUsernamePasword(username,password)
     }   
     @Get('/getAllUsers')
-    async getAllUsers() {
+    getAllUsers() {
         return this.loginUserService.getAllUsers()
     }  
+
     @Get('/emailCheck')
-    async emailCheck(@Query('email') email: string) {
+    emailCheck(@Query('email') email: string) {
         return this.loginUserService.checkIfUserWithEmailExist(email)
     }
 

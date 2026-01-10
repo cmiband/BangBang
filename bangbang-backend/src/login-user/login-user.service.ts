@@ -1,13 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { response, Response } from "express";
+import { Response } from "express";
 import { User,AccountInfoResponseData, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
 
 @Injectable()
 export class LoginUserService {
 
-  userCollection: Array<User> = [
-    { id: crypto.randomUUID(), username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", city: "Warszawa", avatar: ""}
+  public userCollection: Array<User> = [
+    { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", description: "Sigma?", avatar: "", city: ""},
+    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "2005-09-19", description: "Hej randka?", avatar: "", city: ""}
   ];
+
+  getAvailableUsers(currentUserId: string, res: Response): Response {
+    const availableUsers = this.userCollection.filter((user) => user.id != currentUserId);
+
+    return res.status(200).json({users: availableUsers});
+  }
 
   getAllUsers():Array<User> {
     return this.userCollection

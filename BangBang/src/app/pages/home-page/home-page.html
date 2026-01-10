@@ -1,0 +1,32 @@
+<div class="h-[100vh]">
+    <div class="w-[100vw] pt-[2vh] pl-[2vw] pb-[5vh]">
+        <img src="images/userDark.png" class="h-[30px] w-[30px]" (click)="handleOpenProfile()">
+    </div>
+    @if(availableUsersExist()) {
+        <div class="m-auto h-[60vh] w-[50vw] flex flex-col items-center">
+            <div class="size-fit p-[7px] match-container">
+                <img [src]="currentImage" class="h-[50vh] w-[30vw]">
+                <div class="flex pt-[5px] pb-[5px] text-base justify-between">
+                    <div>{{ currentUserFirstName() }}, {{ currentUserAge() }}</div>
+                    <img src="images/expandmenu.png" class="w-[1.5rem] h-[1.5rem]" (click)="showDescription(true)">
+                </div>
+            </div>
+            <div class="flex gap-[1rem] mt-[1rem]">
+                <button class="yes-button match-button" (click)="handleMatch('unresolved')">Yes</button>
+                <button class="no-button match-button" (click)="handleMatch('resolved')">No</button>
+            </div>
+        </div>
+        @if(showUserDescription()) {
+            <div class="description-tile flex flex-col">
+                <div><img class="w-[30px] h-[30px]" src="images/close.svg" (click)="showDescription(false)"></div>
+                <div>
+                    {{ currentUser().description }}
+                </div>
+            </div>
+        }
+    } @else {
+        <div class="m-auto w-fit">
+            No more swipes left
+        </div>
+    }
+</div>

@@ -1,28 +1,18 @@
 import { Injectable } from '@angular/core';
 import { SERVER_ENDPOINT } from '../constants/constants';
-
-export type User = {
-  id: string,
-  username: string;
-  password: string;
-  email: string
-  name: string
-  surname: string
-  country: string
-  dob: string
-  city: string
-  avatar: string
-}
+import { User } from "../types/types";
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
   private loggedIn = false;
-  private currentUser: User | null = null
+  private currentUserId = '';
+  private currentUser: User | null = null;
 
   async login(username: string, password: string): Promise<boolean> {
     let isSuccessful = false;
+    let userId = '';
     await fetch(SERVER_ENDPOINT + '/users/login', {
       method: "POST",
       headers: {
@@ -33,8 +23,10 @@ export class Auth {
         password: password
       })
     }).then((res) => res.json()).then((data) => {
+      userId = data.userId;
       isSuccessful = data.successful;
-    });
+    }); 
+    this.currentUserId = userId;
 
     if (!isSuccessful) {
       this.currentUser = null;
@@ -43,7 +35,6 @@ export class Auth {
     const qs = new URLSearchParams({ username, password }).toString();
     const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
     const accountData = await accountRes.json();
-
 
     if (!accountData.successful) {
       this.currentUser = null;
@@ -63,6 +54,10 @@ export class Auth {
     return this.loggedIn;
   }
 
+  getUserId(): string {
+    return this.currentUserId;
+  }
+
   getUser(): User {
     if (this.currentUser != null) {
       return this.currentUser
@@ -71,6 +66,7 @@ export class Auth {
       throw new Error('No data found')
     }
   }
+
   async updateUserInfo(newPassword: string = '') {
     if (this.currentUser?.password != null && this.currentUser.username != null) {
       let password = ''

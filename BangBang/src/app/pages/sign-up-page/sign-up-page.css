@@ -6,6 +6,13 @@
   box-sizing: border-box;
 }
 
+.combobox {
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 2rem;
+    background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
+}
+
 .text {
   margin: 0 auto;
   display: flex;
