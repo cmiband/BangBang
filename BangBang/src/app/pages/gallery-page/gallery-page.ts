@@ -22,7 +22,13 @@ export class GalleryPage {
   constructor(private authService: Auth) {}
 
   async onSubmit(numer: number) {   
-    const url: string = this.images[numer].src
+    let url = ''
+    if(numer === 0) {
+      url = ''
+    }
+    else {
+      url = this.images[numer].src
+    }
     const check = this.authService.updateUserAvatr(url)
     console.log(check)
     if(await check === true) {

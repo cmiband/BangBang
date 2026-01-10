@@ -49,7 +49,7 @@ export class LoginUserService {
     return res.status(200).json(responseData);
   }
 
-  updateUser(oldEmail:string,oldPassword:string,name: string, surname: string, country: string, city: string, password: string, email: string, res: Response): Response 
+  updateUser(oldEmail:string,oldPassword:string,name: string, surname: string, country: string, city: string, password: string, email: string,description:string, res: Response): Response 
   {
     const idx = this.userCollection.findIndex((user) => {
     return user.email === oldEmail && user.password === oldPassword;
@@ -71,6 +71,7 @@ export class LoginUserService {
       this.userCollection[idx].city = city
       this.userCollection[idx].password = password
       this.userCollection[idx].email = email
+      this.userCollection[idx].description = description
 
       responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
       loginSuccessful = true;

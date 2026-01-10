@@ -19,6 +19,7 @@ export class ChangeInfoPage {
     password = ''
     email = ''
     error = ''
+    description = ''
     showSuccess = false;
     showError = false;
 
@@ -33,6 +34,7 @@ export class ChangeInfoPage {
       this.city=this.user.city
       this.password=this.user.password
       this.email=this.user.email
+      this.description=this.user.description
     }
 
     async onSubmit() {
@@ -59,7 +61,7 @@ export class ChangeInfoPage {
           return
         }
       }
-
+      console.log(this.description)
       let result: boolean = false
       await fetch(SERVER_ENDPOINT+'/users/updateUser', {
         method: "PUT",
@@ -74,7 +76,8 @@ export class ChangeInfoPage {
           country: this.country,
           city: this.city,
           password: this.password,
-          email: this.email
+          email: this.email,
+          description: this.description 
         })
       }).then((res) => res.json()).then((data) => {
       result = data.successful;
@@ -101,7 +104,6 @@ export class ChangeInfoPage {
       if(this.name === '' ||
         this.surname === '' ||
         this.country === '' ||
-        this.city === '' ||
         this.password === '' ||
         this.email === ''
       ) {
