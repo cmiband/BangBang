@@ -1,17 +1,10 @@
 .inputField {
-    margin: auto;
-    width: 85%;
-    display: flex;
-    flex-direction: column;
-    padding-top: 0.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.5rem;
+  box-sizing: border-box;
 }
-
-.text {
-    margin: auto;
-    display: flex;
-    margin-bottom: 2%;
-    text-align: center;
-} 
 
 .combobox {
     border: 1px solid black;
@@ -19,3 +12,13 @@
     height: 2rem;
     background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
 }
+
+.text {
+  margin: 0 auto;
+  display: flex;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  justify-content: center;
+}
+
+

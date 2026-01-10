@@ -1,19 +1,88 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from "express";
-import { User, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
+import { User,AccountInfoResponseData, LOGIN_RESPONSE_SUCCESSFUL, LOGIN_RESPONSE_FAILED, REGISTER_RESPONSE_SUCCESSFUL, REGISTER_RESPONSE_FAILED, USER_FOUND, USER_NOT_FOUND, LoginResponseData, ForgotPasswordResponseData, RegisterResponseData } from "../types/types";
 
 @Injectable()
 export class LoginUserService {
 
   public userCollection: Array<User> = [
-    { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", description: "Sigma?"},
-    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "2005-09-19", description: "Hej randka?"}
+    { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", description: "Sigma?", avatar: "", city: ""},
+    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "2005-09-19", description: "Hej randka?", avatar: "", city: ""}
   ];
 
   getAvailableUsers(currentUserId: string, res: Response): Response {
     const availableUsers = this.userCollection.filter((user) => user.id != currentUserId);
 
     return res.status(200).json({users: availableUsers});
+  }
+
+  getAllUsers():Array<User> {
+    return this.userCollection
+  }
+
+  updateUserAvatar(email:string,password:string,username:string,url:string,res: Response) : Response {
+    const idx = this.userCollection.findIndex((user) => {
+    return user.email === email && user.password === password && user.username === username;
+    });
+
+    let responseMessage: string;
+    let loginSuccessful: boolean;
+    let userId: string;
+
+    if(idx === -1) {
+      responseMessage = LOGIN_RESPONSE_FAILED;
+      loginSuccessful = false;
+      userId = "";
+    }
+    else {
+      this.userCollection[idx].avatar = url
+      responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
+      loginSuccessful = true;
+      userId = JSON.stringify(idx);
+    }
+
+    const responseData: LoginResponseData = {
+      message: responseMessage,
+      successful: loginSuccessful,
+      userId: userId
+    };
+    return res.status(200).json(responseData);
+  }
+
+  updateUser(oldEmail:string,oldPassword:string,name: string, surname: string, country: string, city: string, password: string, email: string, res: Response): Response 
+  {
+    const idx = this.userCollection.findIndex((user) => {
+    return user.email === oldEmail && user.password === oldPassword;
+    });
+
+    let responseMessage: string;
+    let loginSuccessful: boolean;
+    let userId: string;
+
+    if(idx === -1) {
+      responseMessage = LOGIN_RESPONSE_FAILED;
+      loginSuccessful = false;
+      userId = "";
+    }
+    else {
+      this.userCollection[idx].name = name
+      this.userCollection[idx].surname = surname
+      this.userCollection[idx].country = country
+      this.userCollection[idx].city = city
+      this.userCollection[idx].password = password
+      this.userCollection[idx].email = email
+
+      responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
+      loginSuccessful = true;
+      userId = JSON.stringify(idx);
+    }
+
+    const responseData: LoginResponseData = {
+      message: responseMessage,
+      successful: loginSuccessful,
+      userId: userId
+    };
+    return res.status(200).json(responseData);
   }
 
   validateLogin(username: string, password: string, res: Response): Response {
@@ -88,5 +157,31 @@ export class LoginUserService {
 
   checkIfUserWithEmailExist(email: string): boolean {
     return this.userCollection.find((user) => user.email === email) != undefined;
+  }
+
+getUserByUsernamePasword(username: string, password: string): AccountInfoResponseData {
+    const targetedUser = this.userCollection.find((user) => {
+      return user.username == username && user.password == password;
+    });
+
+    let responseMessage: string;
+    let findSuccessful: boolean;
+    let userToSend: User | null;
+    if(!targetedUser) {
+      responseMessage = LOGIN_RESPONSE_FAILED;
+      findSuccessful = false
+      userToSend = null
+    } else {
+      responseMessage = LOGIN_RESPONSE_SUCCESSFUL;
+      findSuccessful = true;
+      userToSend = targetedUser
+    }
+
+    const responseData: AccountInfoResponseData = {
+      message: responseMessage,
+      successful: findSuccessful,
+      user: userToSend
+    };
+    return responseData;
   }
 }

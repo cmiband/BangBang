@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query, Res } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Res, Put } from '@nestjs/common';
 import { Response } from "express";
 import { LoginUserService } from './login-user.service';
 import { User } from "../types/types";
@@ -15,6 +15,30 @@ export class LoginUserController {
     @Get("/available")
     getAvailableUsers(@Query("currentid") currentUserId: string, @Res() res: Response) {
         return this.loginUserService.getAvailableUsers(currentUserId, res);
+    }
+
+    @Get('/getUser')
+    getUser(@Query('username') username: string, @Query('password') password: string) {
+        return this.loginUserService.getUserByUsernamePasword(username,password)
+    }   
+    @Get('/getAllUsers')
+    getAllUsers() {
+        return this.loginUserService.getAllUsers()
+    }  
+
+    @Get('/emailCheck')
+    emailCheck(@Query('email') email: string) {
+        return this.loginUserService.checkIfUserWithEmailExist(email)
+    }
+
+    @Put("/updateUser")
+    updateUser(@Body() body: {oldEmail:string,oldPassword:string, name: string, surname: string, country: string, city: string, password: string, email: string },@Res() res: Response) {
+        return this.loginUserService.updateUser(body.oldEmail,body.oldPassword,body.name, body.surname,body.country,body.city,body.password,body.email, res)
+    }
+
+    @Put("/updateUserAvatar")
+    updateUserAvatar(@Body() body: {email:string, password:string,username:string,url:string},@Res() res: Response) {
+        return this.loginUserService.updateUserAvatar(body.email,body.password,body.username,body.url,res);
     }
 
     @Post("/login")
