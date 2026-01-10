@@ -92,7 +92,7 @@ export class SignUpPage {
         surname: this.surname,
         country: this.country,
         dob: this.dob,
-        description: this.description
+        description: this.description,
         city: "",
         avatar: ""
       };

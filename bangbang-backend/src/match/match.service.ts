@@ -24,7 +24,6 @@ export class MatchService {
 
     createMatch(firstUserId: string, secondUserId: string, resolved: boolean, res: Response) {
         const relatedExistingMatch = this.findExistingMatch(firstUserId, secondUserId);
-        console.log(relatedExistingMatch);
         if(!relatedExistingMatch) {
             this.matches.push({
                 userOneId: firstUserId,
@@ -40,7 +39,6 @@ export class MatchService {
                 relatedExistingMatch.resolved = true;
             }
         }
-        console.log('if or else');
 
         return res.status(200).json({success: true});
     }

@@ -18,3 +18,15 @@
 .match-container {
     border: 1px solid black;
 }
+
+.description-tile {
+    position: absolute;
+    width: 50vw;
+    height: 40vh;
+    border: 1.5px solid black;
+    border-radius: 2px;
+    padding: 0.5rem;
+    background-color: var(--bb-color-brand);
+    top: 25%;
+    left: 25%;
+}

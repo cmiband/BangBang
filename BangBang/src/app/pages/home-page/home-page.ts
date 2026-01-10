@@ -2,6 +2,7 @@ import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { User } from '../../types/types';
 import { Auth } from '../../auth/auth';
 import { SERVER_ENDPOINT } from '../../constants/constants';
+import { Router } from '@angular/router';
 
 const DEFAULT_USER: User = {
   id: "",
@@ -13,7 +14,9 @@ const DEFAULT_USER: User = {
   surname: "",
   country: "",
   dob: "",
-  description: ""
+  description: "",
+  avatar: "",
+  city: ""
 };
 
 @Component({
@@ -27,6 +30,7 @@ export class HomePage {
   availableUsers: Array<User> = [];
 
   availableUsersExist: WritableSignal<boolean> = signal(false);
+  showUserDescription: WritableSignal<boolean> = signal(false);
   currentUser: WritableSignal<User> = signal(DEFAULT_USER);
   currentImage: string = "";
 
@@ -46,7 +50,7 @@ export class HomePage {
     return this.getAge(new Date(this.currentUser().dob));
   });
 
-  constructor(authService: Auth) {
+  constructor(authService: Auth, private router : Router) {
     this.authService = authService;
     const userId = this.authService.getUserId();
 
@@ -54,7 +58,6 @@ export class HomePage {
     .then((res) => res.json())
     .then((data) => {
       this.availableUsers = data.users as Array<User>;
-      console.log(this.availableUsers);
 
       this.availableUsersExist.set(!!this.availableUsers.length);
       if(this.availableUsersExist()) {
@@ -71,6 +74,10 @@ export class HomePage {
   }
 
   getImageName(user: User) {
+    if(user.avatar != '') {
+      return user.avatar;
+    }
+
     return user.gender == "male" ? "images/man.jpg" : "images/woman.png";
   }
 
@@ -82,17 +89,15 @@ export class HomePage {
 
   getNextUserToDisplay() {
     if(!this.availableUsers.length) {
-      console.log('a');
       this.availableUsersExist.set(!!this.availableUsers.length);
     } else {
-      console.log('b');
       this.currentUser.set(this.availableUsers[0]);
       this.currentImage = this.getImageName(this.currentUser());
     }
   }
 
-  async handleMatch() {
-    console.log('match');
+  async handleMatch(resolved: string) {
+    const resolvedMatch = resolved == 'resolved';
     await fetch(SERVER_ENDPOINT+"/match/creatematch", {
       method: "POST",
       headers: {
@@ -101,7 +106,7 @@ export class HomePage {
       body: JSON.stringify({
         firstUserId: this.authService.getUserId(),
         secondUserId: this.currentUser().id,
-        resolved: false
+        resolved: resolvedMatch
       })
     }).then((res) => res.json()).then((data) => {
       if(!data.success) {
@@ -109,16 +114,18 @@ export class HomePage {
       }
 
       this.availableUsers = this.availableUsers.filter((user) => user.id != this.currentUser().id);
-      console.log('users');
-      console.log(this.availableUsers);
 
       this.getNextUserToDisplay();
     }).catch((err) => {
       console.error(err);
-    })
+    });
   }
 
-  handleUnmatch() {
-    console.log('unmatch');
+  handleOpenProfile() {
+    this.router.navigate(['/profile']);
+  }
+
+  showDescription(open: boolean) {
+    this.showUserDescription.set(open);
   }
 }
