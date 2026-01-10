@@ -245,7 +245,7 @@ table {
 .gallery-grid {
   padding-top: 20px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 🔥 4 kolumny */
+  grid-template-columns: repeat(4, 1fr); 
   gap: 16px;
 }
 

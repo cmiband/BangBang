@@ -32,8 +32,8 @@ export class LoginUserController {
     }
 
     @Put("/updateUser")
-    updateUser(@Body() body: {oldEmail:string,oldPassword:string, name: string, surname: string, country: string, city: string, password: string, email: string },@Res() res: Response) {
-        return this.loginUserService.updateUser(body.oldEmail,body.oldPassword,body.name, body.surname,body.country,body.city,body.password,body.email, res)
+    updateUser(@Body() body: {oldEmail:string,oldPassword:string, name: string, surname: string, country: string, city: string, password: string, email: string, description: string },@Res() res: Response) {
+        return this.loginUserService.updateUser(body.oldEmail,body.oldPassword,body.name, body.surname,body.country,body.city,body.password,body.email,body.description, res)
     }
 
     @Put("/updateUserAvatar")

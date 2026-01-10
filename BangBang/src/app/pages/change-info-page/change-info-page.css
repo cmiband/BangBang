@@ -67,7 +67,7 @@
 
 .content {
   flex: 1 1 auto;
-  min-height: 0;
+  min-height: 0; 
   padding: 6px 26px 50px;
   display: flex;
   flex-direction: column;
@@ -77,10 +77,16 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 384px;
-  gap: 1px 12px;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
   align-items: end;
-  margin: auto;
+}
+
+.grid2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px 12px;
+  align-items: end;
 }
 
 .inputField {
@@ -118,6 +124,24 @@
   color: #222;
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+textarea {
+  width: 1fr;
+  height: 70px;
+  line-height: 20px;
+  font-size: 13px;
+  padding: 5px 14px;
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  background: #f2f2f2;
+  color: #222;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+  overflow-y: hidden
 }
 
 .bottom-nav {
