@@ -8,5 +8,7 @@ export type User = {
   surname: string
   country: string
   dob: string,
-  description: string
+  description: string,
+  city: string,
+  avatar: string
 }
