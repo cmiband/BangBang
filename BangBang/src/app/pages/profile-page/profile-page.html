@@ -1,1 +1,64 @@
-<p>jestes zalogowany gratulacje!</p>
+<div class="page">
+  <div class="page__bg"></div>
+
+  <main class="card">
+    <div class="header">
+      <img src="images/BBLogo.png" class="headerLogo" alt="BangBang logo image">
+      <img class="avatar" [src]="user?.avatar || 'images/defaultAvatar.png'" alt="Avatar" />
+      <h1 class="title">{{ user.name }} {{ user.surname }}, {{ age }}</h1>
+      <div class="section-title">Account info</div>
+    </div>
+
+    <div class="content">
+      <div class="grid">
+        <div class="field">
+          <label>Name</label>
+          <div class="value">{{ user.name }}</div>
+        </div>
+
+        <div class="field">
+          <label>Surname</label>
+          <div class="value">{{ user.surname }}</div>
+        </div>
+
+        <div class="field">
+          <label>Country</label>
+          <div class="value">{{ user.country }}</div>
+        </div>
+
+        <div class="field">
+          <label>City</label>
+          <div class="value">{{ user.city || 'Empty' }}</div>
+        </div>
+
+        <div class="field">
+          <label>Password</label>
+          <div class="value value--mono">{{ passwordMasked }}</div>
+        </div>
+
+        <div class="field">
+          <label>Email</label>
+          <div class="value">{{ user.email }}</div>
+        </div>
+      </div>
+
+      <div class="tiles">
+        <div class="tile" aria-disabled="true">
+          <img src="images/gallery.png" class="w-[50px] m-auto cursor-pointer" alt="Gallery image" routerLink="../gallery">
+          <div class="tile__label">Gallery</div>
+        </div>
+
+        <div class="tile" aria-disabled="true">
+          <img src="images/changeInfo.png" class="w-[50px] m-auto cursor-pointer" alt="Change info image" routerLink="../changeInfo">
+          <div class="tile__label">Change informations</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom-nav" aria-label="Bottom navigation">
+      <img src="images/homeTransparent.png" class="w-[50px] m-auto cursor-pointer" alt="Home transparent image" routerLink="login">
+      <img src="images/chatTransparent.png" class="w-[50px] m-auto cursor-pointer" alt="Chat transparent image" routerLink="login">
+      <img src="images/userDark.png" class="w-[50px] m-auto" alt="User dark image">
+    </div>
+  </main>
+</div>

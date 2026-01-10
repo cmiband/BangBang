@@ -6,10 +6,12 @@ export type User = {
   username: string;
   password: string;
   email: string
-  name : string
+  name: string
   surname: string
   country: string
   dob: string
+  city: string
+  avatar: string
 }
 
 @Injectable({
@@ -17,10 +19,11 @@ export type User = {
 })
 export class Auth {
   private loggedIn = false;
+  private currentUser: User | null = null
 
   async login(username: string, password: string): Promise<boolean> {
     let isSuccessful = false;
-    await fetch(SERVER_ENDPOINT+'/users/login', {
+    await fetch(SERVER_ENDPOINT + '/users/login', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -31,7 +34,22 @@ export class Auth {
       })
     }).then((res) => res.json()).then((data) => {
       isSuccessful = data.successful;
-    }); 
+    });
+
+    if (!isSuccessful) {
+      this.currentUser = null;
+      return false;
+    }
+    const qs = new URLSearchParams({ username, password }).toString();
+    const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
+    const accountData = await accountRes.json();
+
+
+    if (!accountData.successful) {
+      this.currentUser = null;
+      return false;
+    }
+    this.currentUser = accountData.user
 
     this.loggedIn = isSuccessful;
     return isSuccessful;
@@ -43,5 +61,67 @@ export class Auth {
 
   isLoggedIn(): boolean {
     return this.loggedIn;
+  }
+
+  getUser(): User {
+    if (this.currentUser != null) {
+      return this.currentUser
+    }
+    else {
+      throw new Error('No data found')
+    }
+  }
+  async updateUserInfo(newPassword: string = '') {
+    if (this.currentUser?.password != null && this.currentUser.username != null) {
+      let password = ''
+      const username = this.currentUser.username
+      if(newPassword === '') {
+        password = this.currentUser.password
+      }
+      else {
+        password = newPassword
+      }
+      const qs = new URLSearchParams({ username, password }).toString();
+      const accountRes = await fetch(`${SERVER_ENDPOINT}/users/getUser?${qs}`, {})
+      const accountData = await accountRes.json();
+      if (!accountData.successful) {
+        this.currentUser = null;
+      }
+      this.currentUser = accountData.user
+    }
+  }
+
+  async updateUserAvatr(url: string): Promise<Boolean> {
+    let result: boolean = false
+    await fetch(SERVER_ENDPOINT + '/users/updateUserAvatar', {
+      method: "PUT",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify({
+        email: this.currentUser?.email,
+        password: this.currentUser?.password,
+        username: this.currentUser?.username,
+        url: url
+      })
+    }).then((res) => res.json()).then((data) => {
+      result = data.successful;
+    });
+    if (result) {
+      this.updateUserInfo()
+      return true
+    }
+    return false
+  }
+
+  async checkIfEmailExist(email: string): Promise<boolean> {
+    const qs = new URLSearchParams({ email }).toString();
+    const accountRes = await fetch(`${SERVER_ENDPOINT}/users/emailCheck?${qs}`, {})
+    const accountData = await accountRes.json();
+
+    if (accountData) {
+      return true
+    }
+    return false
   }
 }

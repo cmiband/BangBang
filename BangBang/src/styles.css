@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+}
+
+
 body {
     --bb-color-brand: #d5739d;
     --bb-color-neutral: #e6d0de;
@@ -8,8 +15,9 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 1rem;
 
-    height: 100vh;
     background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));
+
+    overflow-x: hidden;
 }
 
 .custom-text-input {
@@ -43,19 +51,25 @@ body {
   height: 5px;
   background: purple;
   border-radius: 5px;
-  margin: auto;
-  display: flex;
-  margin-bottom: 2%;
-  margin-top: 3%;
+  margin: 12px auto;
+  display: block;
   text-align: center;
 }
 
 #alert {
-  width: 60%;
-  height: 40px;
+  width: 90%;
+  max-width: 420px;
+
+  min-height: 40px;
+  padding: 8px 12px;
+
   border-radius: 5px;
-  margin: auto;
+  margin: 12px auto;
+
   display: flex;
-  margin-top: 3%;
+  align-items: center;
+  justify-content: center;
+
   text-align: center;
+  box-sizing: border-box;
 }

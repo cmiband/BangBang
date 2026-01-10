@@ -52,6 +52,17 @@ export class SignUpPage {
       return false
     }
 
+    const today = new Date()
+    const birthDate = new Date(this.dob)
+    today.setHours(0, 0, 0, 0);
+    birthDate.setHours(0, 0, 0, 0);
+    console.log(today)
+    if(birthDate > today) {
+      this.error = 'Error! Invalid date of birth.'
+      this.success = ''
+      return
+    }
+
     if(this.username.trim().length < 1) {
       this.error = 'Error! Username must contain at least 1 character.'
       return false
@@ -72,8 +83,18 @@ export class SignUpPage {
         name: this.name,
         surname: this.surname,
         country: this.country,
-        dob: this.dob
+        dob: this.dob,
+        city: "",
+        avatar: ""
       };
+
+      const emailStatus = await this.authService.checkIfEmailExist(this.email)
+      if(emailStatus) {
+        this.error = 'Error! Email taken.'
+        this.success=''
+        return
+      }
+
       const status = await this.registerUser(newUser);
       if(status) {
         this.error = ''
