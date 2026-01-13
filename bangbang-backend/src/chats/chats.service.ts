@@ -6,7 +6,12 @@ import { Response } from 'express';
 export class ChatsService {
 
     getUsersToChats(currentId: string, allUsers: User[], allMatches: Match[], res: Response) {
-        const matchedUsers = allMatches.filter((match) => (match.userOneId == currentId || match.userTwoId == currentId) && match.resolved && match.successful);
+        const matchedUsers = allMatches.filter((match) => 
+            (match.userOneId == currentId || match.userTwoId == currentId) 
+        && match.resolved 
+        && match.userOneStatus == 'accepted'
+        && match.userTwoStatus == 'accepted'
+    );
         if(!matchedUsers.length) {
             return res.status(200).json({chats: []});
         }
@@ -24,9 +29,9 @@ export class ChatsService {
                 return;
             }
 
-            if(match.userOneId != currentUserId) {
+            if(match.userOneId != currentUserId && match.userOneStatus == 'accepted') {
                 userIds.add(match.userOneId);
-            } else {
+            } else if(match.userTwoId != currentUserId && match.userTwoStatus == 'accepted') {
                 userIds.add(match.userTwoId);
             }
         });

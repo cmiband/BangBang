@@ -16,10 +16,9 @@ export type User = {
 export type Match = {
     userOneId: string,
     userTwoId: string,
-    userOneAccepted: boolean,
-    userTwoAccepted: boolean,
-    resolved: boolean,
-    successful: boolean
+    userOneStatus: string,
+    userTwoStatus: string,
+    resolved: boolean
 };
 
 export type LoginResponseData = {

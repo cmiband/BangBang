@@ -114,7 +114,7 @@ export class HomePage {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        matchAuthor: this.authService.getUserId(),
+        currentUserId: this.authService.getUserId(),
         secondUserId: this.currentUser().id,
         resolved: resolvedMatch
       })

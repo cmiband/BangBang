@@ -14,9 +14,7 @@ export class ChatsController {
         const allUsers = this.loginUserService.userCollection;
         const allMatches = this.matchService.matches;
 
-        console.log('query param');
-        console.log(currentId);
-        console.log(allUsers);
+        console.log('matches');
         console.log(allMatches);
         return this.chatsService.getUsersToChats(currentId, allUsers, allMatches, res);
     }

@@ -9,7 +9,7 @@
             <div class="grid">
                 @if(availableUsersExist()) {
                 <div class="size-fit pb-[7px] match-container">
-                    <img [src]="currentImage" class="h-[450px] w-[360px] image">
+                    <img [src]="currentImage" class="h-[55vh] w-[360px] image">
                     <div class="flex pt-[5px] pb-[5px] text-base justify-between">
                         <div class="userName">{{ currentUserFirstName() }}, {{ currentUserAge()
                             }}{{currentUserCity()}}</div>
@@ -41,7 +41,7 @@
         <div class="bottom-nav" aria-label="Bottom navigation">
             <img src="images/homeDark.png" class="w-[45px] m-auto" alt="Home dark image">
             <img src="images/chatTransparent.png" class="w-[50px] m-auto cursor-pointer" alt="Chat transparent image"
-                routerLink="/login">
+                routerLink="/chats">
             <img src="images/userTransparent.png" class="w-[45px] m-auto cursor-pointer" alt="User transparent image"
                 routerLink="/profile">
             <img src="images/logout.png" class="w-[45px] m-auto cursor-pointer" alt="Logout image" routerLink="/login">

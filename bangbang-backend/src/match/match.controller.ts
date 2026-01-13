@@ -16,7 +16,7 @@ export class MatchController {
     }
 
     @Post("/creatematch")
-    createMatch(@Body() body: {matchAuthor: string, secondUserId: string, resolved: boolean}, @Res() response: Response) {
-        return this.matchService.createMatch(body.matchAuthor, body.secondUserId, body.resolved, response);
+    createMatch(@Body() body: {currentUserId: string, secondUserId: string, resolved: boolean}, @Res() response: Response) {
+        return this.matchService.createMatch(body.currentUserId, body.secondUserId, body.resolved, response);
     }
 }

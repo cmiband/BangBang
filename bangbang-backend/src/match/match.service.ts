@@ -20,28 +20,30 @@ export class MatchService {
         const excludedUserIds = this.prepareExcludedUsers(currentUserId);
         excludedUserIds.add(currentUserId);
         const usersFiltered = allUsers.filter((user) => !excludedUserIds.has(user.id));
-        console.log(excludedUserIds);
-        console.log(usersFiltered);
         return res.status(200).json({users: usersFiltered});
     }
 
-    createMatch(matchAuthor: string, secondUserId: string, resolved: boolean, res: Response) {
-        const relatedExistingMatch = this.findExistingMatch(matchAuthor, secondUserId);
+    createMatch(currentUserId: string, secondUserId: string, resolved: boolean, res: Response) {
+        const relatedExistingMatch = this.findExistingMatch(currentUserId, secondUserId);
         if(!relatedExistingMatch) {
+            const status = resolved ? 'accepted' : 'declined';
+
             this.matches.push({
-                userOneId: matchAuthor,
+                userOneId: currentUserId,
                 userTwoId: secondUserId,
-                userOneAccepted: true,
-                userTwoAccepted: false,
-                resolved: resolved,
-                successful: false
+                userOneStatus: status,
+                userTwoStatus: 'none',
+                resolved: false
             });
         } else {
-            const isExistingMatchResolved = relatedExistingMatch.resolved;
-            
-            if(!isExistingMatchResolved) {
-                relatedExistingMatch.successful = true;
-                relatedExistingMatch.resolved = true;
+            const isUserFirstUser = relatedExistingMatch.userOneId === currentUserId;
+            const status = resolved ? 'accepted' : 'declined';
+
+            relatedExistingMatch.resolved = true;
+            if(isUserFirstUser) {
+                relatedExistingMatch.userOneStatus = status;
+            } else {
+                relatedExistingMatch.userTwoStatus = status;
             }
         }
 
@@ -60,7 +62,7 @@ export class MatchService {
         const ids = new Set<string>();
         
         this.matches.forEach((match) => {
-            if((match.resolved && (match.userOneId == currentUserId || match.userTwoId == currentUserId))) {
+            if(match.resolved || this.checkIfOppositeUserDeclinedMatch(match, currentUserId)) {
                 ids.add(match.userOneId);
                 ids.add(match.userTwoId);
                 return;
@@ -68,5 +70,11 @@ export class MatchService {
         });
 
         return ids;
+    }
+
+    checkIfOppositeUserDeclinedMatch(match: Match, currentUserId: string) {
+        const isFirstUser = match.userOneId == currentUserId;
+
+        return isFirstUser ? match.userTwoStatus == "declined" : match.userOneStatus == "declined";
     }
 }
