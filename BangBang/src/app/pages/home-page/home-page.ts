@@ -2,7 +2,7 @@ import { Component, computed, signal, WritableSignal } from '@angular/core';
 import { User } from '../../types/types';
 import { Auth } from '../../auth/auth';
 import { SERVER_ENDPOINT } from '../../constants/constants';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 const DEFAULT_USER: User = {
   id: "",
@@ -21,7 +21,7 @@ const DEFAULT_USER: User = {
 
 @Component({
   selector: 'app-home-page',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
 })
@@ -33,6 +33,16 @@ export class HomePage {
   showUserDescription: WritableSignal<boolean> = signal(false);
   currentUser: WritableSignal<User> = signal(DEFAULT_USER);
   currentImage: string = "";
+
+  currentUserCity = computed(() => {
+    if(!this.currentUser) {
+      return "";
+    }
+    if(this.currentUser().city === '') {
+      return "";
+    }
+    return ", "+this.currentUser().city
+  })
 
   currentUserFirstName = computed(() => {
     if(!this.currentUser) {

@@ -28,7 +28,8 @@
 
         <div class="field">
           <label>City</label>
-          <div class="value">{{ user.city || 'Empty' }}</div>
+          <!-- <div class="value">{{ user.city || 'Empty' }}</div> -->
+           <div class="value">{{ user.city }}</div>
         </div>
 
         <div class="field">
@@ -56,9 +57,10 @@
     </div>
 
     <div class="bottom-nav" aria-label="Bottom navigation">
-      <img src="images/homeTransparent.png" class="w-[50px] m-auto cursor-pointer" alt="Home transparent image" routerLink="/home">
-      <img src="images/chatTransparent.png" class="w-[50px] m-auto cursor-pointer" alt="Chat transparent image" routerLink="/chats">
-      <img src="images/userDark.png" class="w-[50px] m-auto" alt="User dark image">
+      <img src="images/homeTransparent.png" class="w-[45px] m-auto cursor-pointer" alt="Home transparent image" routerLink="/home">
+      <img src="images/chatTransparent.png" class="w-[50px] m-auto cursor-pointer" alt="Chat transparent image" routerLink="/login">
+      <img src="images/userDark.png" class="w-[45px] m-auto" alt="User dark image">
+      <img src="images/logout.png" class="w-[45px] m-auto cursor-pointer" alt="Logout image" routerLink="/login">
     </div>
   </main>
 </div>
