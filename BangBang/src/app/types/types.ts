@@ -12,3 +12,15 @@ export type User = {
   city: string,
   avatar: string
 }
+
+export type Message = {
+  message: string,
+  authorId: string,
+  createdDate: string
+}
+
+export type Thread = {
+  firstUserId: string,
+  secondUserId: string,
+  messages: Message[]
+}

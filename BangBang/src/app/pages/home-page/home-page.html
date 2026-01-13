@@ -1,11 +1,12 @@
 <div class="h-[100vh]">
-    <div class="w-[100vw] pt-[2vh] pl-[2vw] pb-[5vh]">
+    <div class="w-[100vw] pt-[2vh] pl-[2vw] pb-[5vh] flex gap-[5vw]">
         <img src="images/userDark.png" class="h-[30px] w-[30px]" (click)="handleOpenProfile()">
+        <img src="images/chatDark.png" class="h-[30px] w-[30px]" (click)="handleOpenChats()">
     </div>
     @if(availableUsersExist()) {
         <div class="m-auto h-[60vh] w-[50vw] flex flex-col items-center">
             <div class="size-fit p-[7px] match-container">
-                <img [src]="currentImage" class="h-[50vh] w-[30vw]">
+                <img [src]="currentImage" class="w-[40vw]">
                 <div class="flex pt-[5px] pb-[5px] text-base justify-between">
                     <div>{{ currentUserFirstName() }}, {{ currentUserAge() }}</div>
                     <img src="images/expandmenu.png" class="w-[1.5rem] h-[1.5rem]" (click)="showDescription(true)">
