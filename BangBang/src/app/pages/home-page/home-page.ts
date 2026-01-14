@@ -108,6 +108,7 @@ export class HomePage {
 
   async handleMatch(resolved: string) {
     const resolvedMatch = resolved == 'resolved';
+    console.log("resolved", resolvedMatch);
     await fetch(SERVER_ENDPOINT+"/match/creatematch", {
       method: "POST",
       headers: {

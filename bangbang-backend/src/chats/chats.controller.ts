@@ -16,6 +16,6 @@ export class ChatsController {
 
         console.log('matches');
         console.log(allMatches);
-        return this.chatsService.getUsersToChats(currentId, allUsers, allMatches, res);
+        return this.chatsService.getThreadsToChat(currentId, allUsers, allMatches, res);
     }
 }

@@ -19,10 +19,10 @@ export class ChatsPage {
   constructor(private auth: Auth, private router: Router) {
     const currentUserId = this.auth.getUserId();
 
-    console.log('current id', currentUserId);
     fetch(SERVER_ENDPOINT+'/chats/available?currentid='+currentUserId).then((res) => res.json()).then((data) => {
       console.log('available users');
       console.log(data);
+      this.availableUsersToChat.set(data.chats);
     }).catch((err) => {
       console.error(err);
     })

@@ -1,24 +1,20 @@
 import { Injectable } from '@nestjs/common';
-import { User, Match } from "../types/types";
+import { User, Match, Thread, Message, ExportedThreadInfo } from "../types/types";
 import { Response } from 'express';
 
 @Injectable()
 export class ChatsService {
+    public threads: Thread[] = [];
 
-    getUsersToChats(currentId: string, allUsers: User[], allMatches: Match[], res: Response) {
-        const matchedUsers = allMatches.filter((match) => 
-            (match.userOneId == currentId || match.userTwoId == currentId) 
-        && match.resolved 
-        && match.userOneStatus == 'accepted'
-        && match.userTwoStatus == 'accepted'
-    );
-        if(!matchedUsers.length) {
-            return res.status(200).json({chats: []});
-        }
-        const userIds = this.getUserIds(currentId, allMatches);
-        const validUsers = this.getUsers(userIds, allUsers);
-        
-        return res.status(200).json({chats: validUsers});
+    getThreadsToChat(currentId: string, allUsers: User[], allMatches: Match[], res: Response) {
+        const relatedChats = this.getRelatedChats(currentId);
+        const usersToChat = relatedChats.map((chat) => {
+            const userId = chat.firstUserId == currentId ? chat.secondUserId : chat.firstUserId;
+
+            return allUsers.find((user) => user.id == userId);
+        });
+
+        return res.status(200).json({chats: usersToChat});
     }
 
     getUserIds(currentUserId: string, matches: Match[]) {
@@ -39,7 +35,7 @@ export class ChatsService {
         return userIds;
     }
 
-    getUsers(userIds: Set<string>, allUsers: User[]) {
-        return allUsers.filter((user) => userIds.has(user.id));
+    getRelatedChats(currentUserId: string) {
+        return this.threads.filter((thread) => [thread.firstUserId, thread.secondUserId].includes(currentUserId));
     }
 }

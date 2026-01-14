@@ -57,6 +57,11 @@ export type Thread = {
     messages: Message[]
 }
 
+export type ExportedThreadInfo = {
+    firstUser: User,
+    secondUser: User
+}
+
 export const LOGIN_RESPONSE_SUCCESSFUL = 'LOGIN_SUCCESSFUL';
 export const LOGIN_RESPONSE_FAILED = 'LOGIN_FAILED';
 export const REGISTER_RESPONSE_SUCCESSFUL = 'REGISTER_SUCCESSFUL';

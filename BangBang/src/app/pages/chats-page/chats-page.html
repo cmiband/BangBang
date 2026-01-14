@@ -5,9 +5,18 @@
     </div>
     <div class="w-[90vw] m-auto min-h-[90vh] chats-container">
         @if(insideChat()) {
-            
+           
         } @else {
-
+            @for(user of availableUsersToChat(); track user.id)
+            {
+                <div class="w-[100%] flex">
+                    <img class="w-[7vw]" [src]="user.avatar || 'images/defaultAvatar.png'">
+                    <div>
+                        <div>{{user.username}}</div>
+                        <div>{{user.description}}</div>
+                    </div>
+                </div>
+            }
         }
     </div>
 </div>

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from "express";
 import { Match,User } from '../types/types';
+import { ChatsService } from '../chats/chats.service';
 
 @Injectable()
 export class MatchService {
@@ -23,10 +24,10 @@ export class MatchService {
         return res.status(200).json({users: usersFiltered});
     }
 
-    createMatch(currentUserId: string, secondUserId: string, resolved: boolean, res: Response) {
+    createMatch(currentUserId: string, secondUserId: string, resolved: boolean, res: Response, chatsService: ChatsService) {
         const relatedExistingMatch = this.findExistingMatch(currentUserId, secondUserId);
         if(!relatedExistingMatch) {
-            const status = resolved ? 'accepted' : 'declined';
+            const status = resolved ? 'declined' : 'accepted';
 
             this.matches.push({
                 userOneId: currentUserId,
@@ -37,13 +38,21 @@ export class MatchService {
             });
         } else {
             const isUserFirstUser = relatedExistingMatch.userOneId === currentUserId;
-            const status = resolved ? 'accepted' : 'declined';
+            const status = resolved ? 'declined' : 'accepted';
 
             relatedExistingMatch.resolved = true;
             if(isUserFirstUser) {
                 relatedExistingMatch.userOneStatus = status;
             } else {
                 relatedExistingMatch.userTwoStatus = status;
+            }
+
+            if(relatedExistingMatch.userOneStatus == 'accepted' && relatedExistingMatch.userTwoStatus == 'accepted') {
+                chatsService.threads.push({
+                    firstUserId: currentUserId,
+                    secondUserId: secondUserId,
+                    messages: []
+                });
             }
         }
 
