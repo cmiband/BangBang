@@ -12,10 +12,7 @@ export class ChatsController {
     @Get('/available') 
     getAvailableChats(@Query("currentid") currentId: string, @Res() res : Response) {
         const allUsers = this.loginUserService.userCollection;
-        const allMatches = this.matchService.matches;
 
-        console.log('matches');
-        console.log(allMatches);
-        return this.chatsService.getThreadsToChat(currentId, allUsers, allMatches, res);
+        return this.chatsService.getThreadsToChat(currentId, allUsers, res);
     }
 }

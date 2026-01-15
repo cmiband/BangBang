@@ -1,0 +1,9 @@
+.message {
+    max-width: 60%;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.message-author {
+    background: linear-gradient(var(--bb-color-neutral), var(--bb-color-brand));;
+}

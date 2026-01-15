@@ -6,7 +6,7 @@ import { Response } from 'express';
 export class ChatsService {
     public threads: Thread[] = [];
 
-    getThreadsToChat(currentId: string, allUsers: User[], allMatches: Match[], res: Response) {
+    getThreadsToChat(currentId: string, allUsers: User[], res: Response) {
         const relatedChats = this.getRelatedChats(currentId);
         const usersToChat = relatedChats.map((chat) => {
             const userId = chat.firstUserId == currentId ? chat.secondUserId : chat.firstUserId;

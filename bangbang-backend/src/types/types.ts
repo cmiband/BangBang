@@ -48,7 +48,7 @@ export type ForgotPasswordResponseData = {
 export type Message = {
     message: string,
     authorId: string,
-    createdDate: string
+    createdDate: number
 }
 
 export type Thread = {

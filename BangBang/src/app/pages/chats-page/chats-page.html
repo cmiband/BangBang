@@ -3,17 +3,19 @@
         <img src="images/userDark.png" class="h-[30px] w-[30px]" (click)="handleOpenProfile()">
         <img src="images/homeDark.png" class="h-[30px] w-[30px]" (click)="handleOpenHome()">
     </div>
-    <div class="w-[90vw] m-auto min-h-[90vh] chats-container">
+    <div class="w-[90vw] m-auto h-[90vh] p-[3vw] chats-container">
         @if(insideChat()) {
-           
+           <app-chat class="h-[100%] block" [chatId]="currentChat" (goBack)="handleBack()"></app-chat>
         } @else {
             @for(user of availableUsersToChat(); track user.id)
             {
-                <div class="w-[100%] flex">
-                    <img class="w-[7vw]" [src]="user.avatar || 'images/defaultAvatar.png'">
-                    <div>
-                        <div>{{user.username}}</div>
-                        <div>{{user.description}}</div>
+                <div class="w-[100%] mb-[2vh] p-[2vw] chat-row" (click)="handleChatClick(user.id)">
+                    <div class="flex">
+                        <img class="w-[7vw]" [src]="user.avatar || 'images/defaultAvatar.png'">
+                        <div class="ml-[2vw] flex flex-col gap-[0.6vh]">
+                            <div class="chat-name">{{user.username}}</div>
+                            <div>{{user.description}}</div>
+                        </div>
                     </div>
                 </div>
             }

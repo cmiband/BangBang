@@ -13,7 +13,7 @@ export class MatchService {
             return res.status(500);
         }
 
-        const availableUsers = allUsers.filter((user) => user.id!=currentUserId && currentUser.gender!=user.gender);
+        const availableUsers = allUsers.filter((user) => user.id!=currentUserId);
         if(!availableUsers.length) {
             return res.status(200).json({users: []});
         }
@@ -21,6 +21,7 @@ export class MatchService {
         const excludedUserIds = this.prepareExcludedUsers(currentUserId);
         excludedUserIds.add(currentUserId);
         const usersFiltered = allUsers.filter((user) => !excludedUserIds.has(user.id));
+
         return res.status(200).json({users: usersFiltered});
     }
 
@@ -71,7 +72,8 @@ export class MatchService {
         const ids = new Set<string>();
         
         this.matches.forEach((match) => {
-            if(match.resolved || this.checkIfOppositeUserDeclinedMatch(match, currentUserId)) {
+            const idsInMatch = [match.userOneId, match.userTwoId];
+            if(idsInMatch.includes(currentUserId) && (match.resolved || this.checkIfOppositeUserDeclinedMatch(match, currentUserId))) {
                 ids.add(match.userOneId);
                 ids.add(match.userTwoId);
                 return;
