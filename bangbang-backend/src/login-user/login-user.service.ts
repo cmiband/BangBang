@@ -7,7 +7,8 @@ export class LoginUserService {
 
   public userCollection: Array<User> = [
     { id: crypto.randomUUID(), gender: "male", username: "barti", password: "sigma", email: "barti@test.com", name: "Barti", surname: "Bartowski", country: "Poland", dob: "2003-03-19", description: "Sigma?", avatar: "", city: ""},
-    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "2005-09-19", description: "Hej randka?", avatar: "", city: ""}
+    { id: crypto.randomUUID(), gender: "female", username: "karola", password: "sigma", email: "karola@test.com", name: "Karolina", surname: "Walkiewicz", country: "Poland", dob: "2005-09-19", description: "Hej randka?", avatar: "", city: ""},
+    { id: crypto.randomUUID(), gender: "female", username: "emilia", password: "sigma", email: "emilia@test.com", name: "Emilia", surname: "Prosta", country: "Poland", dob: "2005-11-11", description: "Jestem fajna?", avatar: "", city: ""}
   ];
 
   getAvailableUsers(currentUserId: string, res: Response): Response {

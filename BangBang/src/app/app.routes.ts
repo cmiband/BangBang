@@ -8,6 +8,7 @@ import { authGuard } from './auth/auth-guard';
 import { UserListTest } from './pages/user-list-test/user-list-test'
 import { ChangeInfoPage } from "./pages/change-info-page/change-info-page"
 import { GalleryPage } from "./pages/gallery-page/gallery-page"
+import { ChatsPage } from './pages/chats-page/chats-page';
 
 export const routes: Routes = [
     {
@@ -30,6 +31,11 @@ export const routes: Routes = [
     {
         path: "profile",
         component: ProfilePage,
+        canActivate: [authGuard]
+    },
+    {
+        path: "chats",
+        component: ChatsPage,
         canActivate: [authGuard]
     },
     {

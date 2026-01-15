@@ -88,7 +88,7 @@ export class HomePage {
       return user.avatar;
     }
 
-    return user.gender == "male" ? "images/man.jpg" : "images/woman.png";
+    return "images/defaultAvatar.png";
   }
 
   getAge(date: Date) {
@@ -108,13 +108,14 @@ export class HomePage {
 
   async handleMatch(resolved: string) {
     const resolvedMatch = resolved == 'resolved';
+    console.log("resolved", resolvedMatch);
     await fetch(SERVER_ENDPOINT+"/match/creatematch", {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        firstUserId: this.authService.getUserId(),
+        currentUserId: this.authService.getUserId(),
         secondUserId: this.currentUser().id,
         resolved: resolvedMatch
       })
@@ -133,6 +134,10 @@ export class HomePage {
 
   handleOpenProfile() {
     this.router.navigate(['/profile']);
+  }
+
+  handleOpenChats() {
+    this.router.navigate(['/chats']);
   }
 
   showDescription(open: boolean) {

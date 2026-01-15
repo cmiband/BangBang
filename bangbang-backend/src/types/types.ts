@@ -16,8 +16,9 @@ export type User = {
 export type Match = {
     userOneId: string,
     userTwoId: string,
-    resolved: boolean,
-    successful: boolean
+    userOneStatus: string,
+    userTwoStatus: string,
+    resolved: boolean
 };
 
 export type LoginResponseData = {
@@ -42,6 +43,23 @@ export type ForgotPasswordResponseData = {
     successful: boolean,
     username: string,
     password: string
+}
+
+export type Message = {
+    message: string,
+    authorId: string,
+    createdDate: number
+}
+
+export type Thread = {
+    firstUserId: string,
+    secondUserId: string,
+    messages: Message[]
+}
+
+export type ExportedThreadInfo = {
+    firstUser: User,
+    secondUser: User
 }
 
 export const LOGIN_RESPONSE_SUCCESSFUL = 'LOGIN_SUCCESSFUL';

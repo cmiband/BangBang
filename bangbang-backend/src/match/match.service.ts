@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from "express";
 import { Match,User } from '../types/types';
+import { ChatsService } from '../chats/chats.service';
 
 @Injectable()
 export class MatchService {
@@ -12,31 +13,47 @@ export class MatchService {
             return res.status(500);
         }
 
-        const availableUsers = allUsers.filter((user) => user.id!=currentUserId && currentUser.gender!=user.gender);
+        const availableUsers = allUsers.filter((user) => user.id!=currentUserId);
         if(!availableUsers.length) {
             return res.status(200).json({users: []});
         }
 
-        const existingMatches = this.prepareMatchIds(currentUserId);
-        const usersFilteredByExistingMatches = availableUsers.filter((user) => !existingMatches.has(user.id));
-        return res.status(200).json({users: usersFilteredByExistingMatches});
+        const excludedUserIds = this.prepareExcludedUsers(currentUserId);
+        excludedUserIds.add(currentUserId);
+        const usersFiltered = allUsers.filter((user) => !excludedUserIds.has(user.id));
+
+        return res.status(200).json({users: usersFiltered});
     }
 
-    createMatch(firstUserId: string, secondUserId: string, resolved: boolean, res: Response) {
-        const relatedExistingMatch = this.findExistingMatch(firstUserId, secondUserId);
+    createMatch(currentUserId: string, secondUserId: string, resolved: boolean, res: Response, chatsService: ChatsService) {
+        const relatedExistingMatch = this.findExistingMatch(currentUserId, secondUserId);
         if(!relatedExistingMatch) {
+            const status = resolved ? 'declined' : 'accepted';
+
             this.matches.push({
-                userOneId: firstUserId,
+                userOneId: currentUserId,
                 userTwoId: secondUserId,
-                resolved: resolved,
-                successful: false
+                userOneStatus: status,
+                userTwoStatus: 'none',
+                resolved: false
             });
         } else {
-            const isExistingMatchResolved = relatedExistingMatch.resolved;
-            
-            if(!isExistingMatchResolved) {
-                relatedExistingMatch.successful = true;
-                relatedExistingMatch.resolved = true;
+            const isUserFirstUser = relatedExistingMatch.userOneId === currentUserId;
+            const status = resolved ? 'declined' : 'accepted';
+
+            relatedExistingMatch.resolved = true;
+            if(isUserFirstUser) {
+                relatedExistingMatch.userOneStatus = status;
+            } else {
+                relatedExistingMatch.userTwoStatus = status;
+            }
+
+            if(relatedExistingMatch.userOneStatus == 'accepted' && relatedExistingMatch.userTwoStatus == 'accepted') {
+                chatsService.threads.push({
+                    firstUserId: currentUserId,
+                    secondUserId: secondUserId,
+                    messages: []
+                });
             }
         }
 
@@ -51,22 +68,24 @@ export class MatchService {
         })
     }
 
-    prepareMatchIds(currentUserId: string): Set<string> {
+    prepareExcludedUsers(currentUserId: string): Set<string> {
         const ids = new Set<string>();
         
         this.matches.forEach((match) => {
-            if(match.resolved) {
-                return;
-            }
-            
-            if(currentUserId != match.userOneId) {
+            const idsInMatch = [match.userOneId, match.userTwoId];
+            if(idsInMatch.includes(currentUserId) && (match.resolved || this.checkIfOppositeUserDeclinedMatch(match, currentUserId))) {
                 ids.add(match.userOneId);
-            }
-            if(currentUserId != match.userTwoId) {
                 ids.add(match.userTwoId);
+                return;
             }
         });
 
         return ids;
+    }
+
+    checkIfOppositeUserDeclinedMatch(match: Match, currentUserId: string) {
+        const isFirstUser = match.userOneId == currentUserId;
+
+        return isFirstUser ? match.userTwoStatus == "declined" : match.userOneStatus == "declined";
     }
 }
