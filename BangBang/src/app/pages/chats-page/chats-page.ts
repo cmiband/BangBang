@@ -2,14 +2,14 @@ import { Component } from '@angular/core';
 import { WritableSignal } from '@angular/core';
 import { signal } from '@angular/core';
 import { Auth } from '../../auth/auth';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { User } from '../../types/types';
 import { SERVER_ENDPOINT } from '../../constants/constants';
 import { Chat } from '../../chat/chat';
 
 @Component({
   selector: 'app-chats-page',
-  imports: [Chat],
+  imports: [Chat,RouterLink],
   templateUrl: './chats-page.html',
   styleUrl: './chats-page.css',
 })
@@ -34,6 +34,9 @@ export class ChatsPage {
 
   handleOpenHome() {
     this.router.navigate(['/home']);
+  }
+  handleOpenLogout() {
+    this.router.navigate(['/login']);
   }
 
   handleChatClick(chatId: string) {

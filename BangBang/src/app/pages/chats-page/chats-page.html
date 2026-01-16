@@ -1,28 +1,38 @@
-<div class="h-[100vh] pt-[5vh]">
-    <div class="w-[90vw] m-auto h-[90vh] pb-[0] pt-[3vh] chats-container flex flex-col justify-between">
-        @if(insideChat()) {
-           <app-chat class="h-[100%] block" [chatId]="currentChat" (goBack)="handleBack()"></app-chat>
-        } @else {
-            <div class="pl-[3vw] pr-[3vw]">
-            @for(user of availableUsersToChat(); track user.id)
-            {
-                <div class="w-[100%] mb-[2vh] p-[2vw] chat-row" (click)="handleChatClick(user.id)">
+<div class="page">
+    <div class="page__bg"></div>
+
+    <main class="card">
+        <div class="header">
+            <img src="images/BBLogo.png" class="headerLogo" alt="BangBang logo image">
+            <div class="section-title">Messages</div>
+        </div>
+        <div class="content">
+            @if(insideChat()) {
+            <app-chat class="h-[100%] block" [chatId]="currentChat" (goBack)="handleBack()"></app-chat>
+            } @else {
+            <div class="pl-[6vw] pr-[6vw]">
+                @for(user of availableUsersToChat(); track user.id)
+                {
+                <div class="w-[100%] mb-[2vh] p-[1vw] chat-row" (click)="handleChatClick(user.id)">
                     <div class="flex">
-                        <img class="w-[7vw]" [src]="user.avatar || 'images/defaultAvatar.png'">
+                        <img class="w-[5vw]" [src]="user.avatar || 'images/defaultAvatar.png'">
                         <div class="ml-[2vw] flex flex-col gap-[0.6vh]">
                             <div class="chat-name">{{user.username}}</div>
                             <div>{{user.description}}</div>
                         </div>
                     </div>
                 </div>
-                
+
+                }
+            </div>
             }
-            </div>
-            <div class="pt-[2vh] pl-[2vw] pb-[2vh] flex gap-[5vw] buttons-container justify-around">
-                <img src="images/homeTransparent.png" class="h-[40px] w-[40px]" (click)="handleOpenHome()">
-                <img src="images/chatDark.png" class="h-[40px] w-[40px]">
-                <img src="images/userTransparent.png" class="h-[40px] w-[40px]" (click)="handleOpenProfile()">
-            </div>
-        }
-    </div>
+        </div>
+        <div class="bottom-nav" aria-label="Bottom navigation">
+            <img src="images/homeTransparent.png" class="w-[45px] m-auto cursor-pointer" alt="Home transparent image"
+                routerLink="/home">
+            <img src="images/chatDark.png" class="w-[50px] m-auto" alt="Chat dark image">
+            <img src="images/userTransparent.png" class="w-[45px] m-auto cursor-pointer" alt="User transparent image" routerLink="/profile">
+            <img src="images/logout.png" class="w-[45px] m-auto cursor-pointer" alt="Logout image" routerLink="/login">
+        </div>
+    </main>
 </div>

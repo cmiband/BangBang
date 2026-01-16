@@ -1,26 +1,28 @@
-<div class="pl-[3vw]">
+<div class="">
     <button class="custom-button" (click)="handleBack()">Back</button>
 </div>
-<div class="h-[97%] flex flex-col-reverse pl-[3vw] pr-[3vw]">
-    <div class="mt-[2vh] mb-[4vh]">
-        <input id="new-message" type="text" class="custom-text-input w-[80%]" (input)="handleMessageChange($event.target.value)" [value]="currentMessage">
-        <button class="custom-button ml-[2vw] w-[13vw]" (click)="handleMessageSend()">Send</button>
+<div class="content">
+    <div class="mt-[2vh] mb-[4vh] ml-[1.1vw]">
+        <input id="new-message" type="text" class="custom-text-input w-[70%]"
+            (input)="handleMessageChange($event.target.value)" [value]="currentMessage">
+        <button class="custom-button ml-[1vw] w-[20%] absolute mt-[0.4vw]" (click)="handleMessageSend()">Send</button>
     </div>
     <div class="flex flex-col overflow-auto">
         @for(message of displayedMessages(); track message.id) {
-            @if(message.isAuthor) {
-                <div class="flex justify-end">
-                    <div class="p-[1vw] message message-author mt-[1vh]">
-                        {{message.value}}
-                    </div>
-                </div>
-            } @else {
-                <div class="flex">
-                    <div class="p-[1vw] message mt-[1vh]">
-                        {{message.value}}
-                    </div>
-                </div>
-            }
+        @if(message.isAuthor) {
+        <div class="flex justify-end">
+            <div class="p-[1vw] message message-author mt-[1vh]">
+                {{message.value}}
+            </div>
+        </div>
+        } @else {
+        <div class="flex">
+            <div class="p-[1vw] message mt-[1vh]">
+                {{message.value}}
+            </div>
+        </div>
+        }
         }
     </div>
+    <!-- </div> -->
 </div>
