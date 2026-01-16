@@ -44,7 +44,6 @@ export class SignUpPage {
   }
 
   validation() {
-
     if(this.username == '' || 
       this.email == '' || 
       this.password == '' ||
@@ -63,7 +62,6 @@ export class SignUpPage {
     const birthDate = new Date(this.dob)
     today.setHours(0, 0, 0, 0);
     birthDate.setHours(0, 0, 0, 0);
-    console.log(today)
     if(birthDate > today) {
       this.error = 'Error! Invalid date of birth.'
       this.success = ''
@@ -119,8 +117,6 @@ export class SignUpPage {
   }
 
   async registerUser(newUser: User): Promise<boolean> {
-    console.log('user to register json');
-    console.log(JSON.stringify(newUser));
     let result: boolean = false;
     await fetch(SERVER_ENDPOINT+'/users/register', {
       method: "POST",
