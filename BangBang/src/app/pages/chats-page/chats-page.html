@@ -1,12 +1,9 @@
-<div class="h-[100vh]">
-    <div class="w-[100vw] pt-[2vh] pl-[2vw] pb-[2vh] flex gap-[5vw]">
-        <img src="images/userDark.png" class="h-[30px] w-[30px]" (click)="handleOpenProfile()">
-        <img src="images/homeDark.png" class="h-[30px] w-[30px]" (click)="handleOpenHome()">
-    </div>
-    <div class="w-[90vw] m-auto h-[90vh] p-[3vw] chats-container">
+<div class="h-[100vh] pt-[5vh]">
+    <div class="w-[90vw] m-auto h-[90vh] pb-[0] pt-[3vh] chats-container flex flex-col justify-between">
         @if(insideChat()) {
            <app-chat class="h-[100%] block" [chatId]="currentChat" (goBack)="handleBack()"></app-chat>
         } @else {
+            <div class="pl-[3vw] pr-[3vw]">
             @for(user of availableUsersToChat(); track user.id)
             {
                 <div class="w-[100%] mb-[2vh] p-[2vw] chat-row" (click)="handleChatClick(user.id)">
@@ -18,7 +15,14 @@
                         </div>
                     </div>
                 </div>
+                
             }
+            </div>
+            <div class="pt-[2vh] pl-[2vw] pb-[2vh] flex gap-[5vw] buttons-container justify-around">
+                <img src="images/homeTransparent.png" class="h-[40px] w-[40px]" (click)="handleOpenHome()">
+                <img src="images/chatDark.png" class="h-[40px] w-[40px]">
+                <img src="images/userTransparent.png" class="h-[40px] w-[40px]" (click)="handleOpenProfile()">
+            </div>
         }
     </div>
 </div>

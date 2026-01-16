@@ -13,3 +13,8 @@
     font-size: 1.5rem;
     font-weight: 600;
 }
+
+.buttons-container {
+    background: rgba(45, 45, 45, 0.95);
+    border-radius: 0 0 10px 10px;
+}
