@@ -73,7 +73,7 @@ export class MatchService {
         
         this.matches.forEach((match) => {
             const idsInMatch = [match.userOneId, match.userTwoId];
-            if(idsInMatch.includes(currentUserId) && (match.resolved || this.checkIfOppositeUserDeclinedMatch(match, currentUserId))) {
+            if(idsInMatch.includes(currentUserId) && (match.resolved || !this.checkIfMatchShouldBeDisplayed(match, currentUserId))) {
                 ids.add(match.userOneId);
                 ids.add(match.userTwoId);
                 return;
@@ -83,9 +83,11 @@ export class MatchService {
         return ids;
     }
 
-    checkIfOppositeUserDeclinedMatch(match: Match, currentUserId: string) {
+    checkIfMatchShouldBeDisplayed(match: Match, currentUserId: string) {
         const isFirstUser = match.userOneId == currentUserId;
 
-        return isFirstUser ? match.userTwoStatus == "declined" : match.userOneStatus == "declined";
+        const oppositeUserDeclined = isFirstUser ? match.userTwoStatus == "declined" : match.userOneStatus == "declined";
+        const currentUserAlreadyMadeDecision = isFirstUser ? match.userOneStatus != "none" : match.userTwoStatus != "none";
+        return !oppositeUserDeclined && !currentUserAlreadyMadeDecision;
     }
 }

@@ -22,8 +22,6 @@ export class ChatsPage {
     const currentUserId = this.auth.getUserId();
 
     fetch(SERVER_ENDPOINT+'/chats/available?currentid='+currentUserId).then((res) => res.json()).then((data) => {
-      console.log('available users');
-      console.log(data);
       this.availableUsersToChat.set(data.chats);
     }).catch((err) => {
       console.error(err);
